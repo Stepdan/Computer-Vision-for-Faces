@@ -14,6 +14,9 @@ public:
 	~Scene();
 
 public:
+	void wheelEvent(QWheelEvent* event);
+
+public:
 	void SetImage(const QImage& image);
 	QPixmap GetImage() const;
 
