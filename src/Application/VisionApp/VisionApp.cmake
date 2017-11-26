@@ -1,6 +1,6 @@
 AddTarget(EXECUTABLE NAME VisionApp
     SOURCE_DIR
-	    ${VISION_APP_ROOT}/
+        ${VISION_APP_ROOT}/
     SRC
         *.cpp
         *.h

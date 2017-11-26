@@ -51,12 +51,12 @@ include(${TYPES_ROOT}/Types.cmake)
 include(${PROC_ROOT}/Proc.cmake)
 include(${UTILS_ROOT}/Utils.cmake)
 
-# Подключаем исполняемый проект
-include(${VISION_APP_ROOT}/VisionApp.cmake)
-set(EXECUTABLE_NAME "VisionApp")
-
-# Подключаем сторонние библиотеки
+set(EXECUTABLE_NAME "Proc")
 include(${CMAKE_ROOT}/LibrariesList.cmake)
 LinkLibraries(${EXECUTABLE_NAME} "" COMMON_LIBS_PATH COMMON_LIBS)
 LinkLibraries(${EXECUTABLE_NAME} DLIB_INCLUDES_PATH DLIB_LIBS_PATH DLIB_LIBS)
 LinkLibraries(${EXECUTABLE_NAME} OPENCV_INCLUDES_PATH OPENCV_LIBS_PATH OPENCV_LIBS)
+
+# Подключаем исполняемый проект
+include(${VISION_APP_ROOT}/VisionApp.cmake)
+set(EXECUTABLE_NAME "VisionApp")
