@@ -1,0 +1,21 @@
+AddTarget(EXECUTABLE NAME VisionApp
+    SOURCE_DIR
+	    ${VISION_APP_ROOT}/
+    SRC
+        *.cpp
+        *.h
+        *.qrc
+    UI_FILES
+        ${SOURCE_DIR}/*.ui
+        ${SOURCE_DIR}/UI/*.ui
+    SUBDIRS
+        UI/
+        ImageUtils/
+    DEPS
+        Types
+        Proc
+        Utils
+    QT_USE
+        Core
+        Widgets
+)
