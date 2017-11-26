@@ -14,6 +14,9 @@ public:
 	explicit SettingsPanel(QWidget *parent = 0);
 	~SettingsPanel();
 
+signals:
+	void click();
+
 private:
 	Ui::SettingsPanel *ui;
 };

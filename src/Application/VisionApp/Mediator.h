@@ -4,7 +4,7 @@
 #include <QSettings>
 
 #include "Types/Pointers.h"
-
+#include "Helpers/EffectHelper.h"
 #include "UI/MainWindow.h"
 
 namespace VisionApp {
@@ -20,10 +20,13 @@ public:
 private slots:
 	void OnLoadImage();
 	void OnSaveImage();
+	void OnApplyEffect();
 
 private:
 	SharedPtr<MainWindow> m_mainWindow;
 	UniquePtr<QSettings> m_settings;
+
+	UniquePtr<EffectHelper> m_effectHelper;
 };
 
 }

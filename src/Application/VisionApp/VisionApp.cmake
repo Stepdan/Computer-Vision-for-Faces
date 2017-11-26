@@ -1,6 +1,6 @@
 AddTarget(EXECUTABLE NAME VisionApp
     SOURCE_DIR
-	    ${VISION_APP_ROOT}/
+        ${VISION_APP_ROOT}/
     SRC
         *.cpp
         *.h
@@ -11,6 +11,7 @@ AddTarget(EXECUTABLE NAME VisionApp
     SUBDIRS
         UI/
         ImageUtils/
+        Helpers/
     DEPS
         Types
         Proc

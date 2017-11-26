@@ -4,6 +4,12 @@ AddTarget(NAME Proc
     SRC
         *.cpp
         *.h
+    SUBDIRS
+        Proc/Interfaces/
+        Proc/Settings/
+        Proc/Effects/
+    DEPS
+        Types
     QT_USE
         Core
         Widgets

@@ -19,7 +19,8 @@ public:
 	void SetImage(const QImage & image);
 	QPixmap GetImage() const;
 
-
+signals:
+	void applyEffect();
 
 private:
 	Ui::MainWindow *ui;
