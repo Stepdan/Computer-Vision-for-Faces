@@ -1,4 +1,5 @@
 #include "opencv2/imgcodecs.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 
 #include <QFileDialog>
 #include <QString>
@@ -24,7 +25,6 @@ void Mediator::OnLoadImage()
 	const QString filter = "All Files (*.*)";
 	const auto filename = QFileDialog::getOpenFileName(m_mainWindow.get(), "Open file", "C:/", filter);
 	auto cvMat = cv::imread(filename.toStdString());
-	cv::cvtColor(cvMat, cvMat, CV_BGR2RGB);
 	m_mainWindow->SetImage(Utils::Image::cvMat2QImage(cvMat));
 }
 
