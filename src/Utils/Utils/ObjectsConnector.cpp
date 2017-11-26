@@ -4,9 +4,7 @@
 
 namespace Utils {
 
-/// Идентификатор для сигналов
 static const std::string TYPE_SIGNAL = "TYPE_SIGNAL";
-/// Идентификатор для слотов
 static const std::string TYPE_SLOT = "TYPE_SLOT";
 
 ObjectsConnector::MetaObjectsMap ObjectsConnector::m_metaCollector = ObjectsConnector::MetaObjectsMap();
@@ -25,7 +23,6 @@ void ObjectsConnector::registerEmitter(const QString &ID, QObject *sender, const
 {
 	const std::string signal_str = signal.startsWith('2') ? signal.toStdString() : QString("2"+signal).toStdString();
 
-	// Устанавливаем соединение со всеми сигналами для данного типа.
 	for (const auto & record : m_metaCollector[ID][TYPE_SLOT])
 	{
 		if (sender != record.first)
@@ -44,7 +41,6 @@ void ObjectsConnector::registerReceiver(const QString &ID, QObject *receiver, co
 {
 	const std::string slot_str = slot.startsWith('1') ? slot.toStdString() : QString("1"+slot).toStdString();
 
-	// Устанавливаем соединение со всеми слотами для данного типа.
 	for (const auto & record : m_metaCollector[ID][TYPE_SIGNAL])
 	{
 		if (receiver != record.first)
@@ -63,7 +59,6 @@ void ObjectsConnector::unregisterReceiver(const QString &ID, QObject *receiver, 
 {
 	const std::string slot_str = slot.startsWith('1') ? slot.toStdString() : QString("1"+slot).toStdString();
 
-	// Ликвидируем соединение со всеми сигналами для данного типа.
 	for (const auto & record : m_metaCollector[ID][TYPE_SIGNAL])
 	{
 		if (receiver != record.first)
@@ -79,7 +74,6 @@ void ObjectsConnector::unregisterEmitter(const QString &ID, QObject *sender, con
 {
 	const std::string signal_str = signal.startsWith('2') ? signal.toStdString() : QString("2"+signal).toStdString();
 
-	// Ликвидируем соединение со всеми сигналами для данного типа.
 	for (const auto & record : m_metaCollector[ID][TYPE_SLOT])
 	{
 		if (sender != record.first)
