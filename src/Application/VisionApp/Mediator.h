@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QSettings>
 
 #include "Types/Pointers.h"
 
@@ -22,6 +23,7 @@ private slots:
 
 private:
 	SharedPtr<MainWindow> m_mainWindow;
+	UniquePtr<QSettings> m_settings;
 };
 
 }

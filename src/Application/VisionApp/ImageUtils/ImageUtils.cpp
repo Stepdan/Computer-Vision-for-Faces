@@ -7,8 +7,6 @@
 #include "opencv2/core/core.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 
-// cv::Mat должен быть RGB
-
 namespace{
 
 cv::Mat cvMat_argb2bgra(const cv::Mat &mat)
