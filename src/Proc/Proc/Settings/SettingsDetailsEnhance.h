@@ -8,6 +8,7 @@ class SettingsDetailsEnhance : public BaseSettings
 {
 public:
 	PROC_SETTINGS(SettingsDetailsEnhance)
+	const std::string & GetSettingsID() const { return SETTINGS_ID; }
 
 	SettingsDetailsEnhance() = default;
 

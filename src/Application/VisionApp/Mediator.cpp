@@ -11,6 +11,8 @@
 
 #include "Mediator.h"
 
+#include "Proc/Settings/SettingsDetailsEnhance.h"
+
 namespace
 {
 const QString COMPANY_NAME = "StepCo";
@@ -25,9 +27,12 @@ namespace VisionApp {
 Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 	: m_mainWindow(mainWindow)
 	, m_settings(new QSettings(COMPANY_NAME, PRODUCT_NAME))
+	, m_effectHelper(new EffectHelper())
 {
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::LOAD_IMAGE, this, SLOT(OnLoadImage()));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::SAVE_IMAGE, this, SLOT(OnSaveImage()));
+
+	connect(m_mainWindow.get(), &MainWindow::applyEffect, this, &Mediator::OnApplyEffect);
 }
 
 void Mediator::OnLoadImage()
@@ -59,6 +64,14 @@ void Mediator::OnSaveImage()
 	cv::imwrite(filename.toStdString(), Utils::Image::QPixmap2cvMat(m_mainWindow->GetImage()));
 
 	m_settings->setValue(LAST_SAVE_PATH, filename);
+}
+
+void Mediator::OnApplyEffect()
+{
+	const auto effect = m_effectHelper->CreateEffectOne(Proc::SettingsDetailsEnhance());
+	cv::Mat dst;
+	effect->Apply(Utils::Image::QPixmap2cvMat(m_mainWindow->GetImage()), dst);
+	m_mainWindow->SetImage(Utils::Image::cvMat2QImage(dst));
 }
 
 }

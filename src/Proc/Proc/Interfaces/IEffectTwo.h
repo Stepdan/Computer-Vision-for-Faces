@@ -4,15 +4,15 @@
 
 #include "IEffect.h"
 
-namespace Proc {
+namespace Proc { namespace Interfaces {
 
-class IEffectOne : virtual public IEffect
+class IEffectTwo : virtual public IEffect
 {
 protected:
-	virtual ~IEffectOne() = default;
+	virtual ~IEffectTwo() = default;
 
 public:
-	virtual void Apply(const cv::Mat & src1, const cv::Mat & src2, const cv::Mat & dst);
+	virtual void Apply(const cv::Mat & src1, const cv::Mat & src2, cv::Mat & dst) = 0;
 };
 
-}
+}}

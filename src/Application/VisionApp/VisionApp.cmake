@@ -11,6 +11,7 @@ AddTarget(EXECUTABLE NAME VisionApp
     SUBDIRS
         UI/
         ImageUtils/
+        Helpers/
     DEPS
         Types
         Proc

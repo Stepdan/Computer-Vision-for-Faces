@@ -7,7 +7,7 @@ namespace Proc {
 class BaseSettings
 {
 public:
-	virtual ~BaseSettings() = 0;
+	virtual ~BaseSettings() = default;
 	virtual const std::string & GetSettingsID() const = 0;
 
 protected:

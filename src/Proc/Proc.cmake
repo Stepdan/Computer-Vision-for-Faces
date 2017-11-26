@@ -8,6 +8,8 @@ AddTarget(NAME Proc
         Proc/Interfaces/
         Proc/Settings/
         Proc/Effects/
+    DEPS
+        Types
     QT_USE
         Core
         Widgets
