@@ -21,6 +21,9 @@ public:
 	QImage Redo();
 	QImage Reset();
 
+	size_t UndoSize() const { return m_undo.size(); }
+	size_t RedoSize() const { return m_redo.size(); }
+
 public:
 	std::list<QImage> m_undo;
 	std::list<QImage> m_redo;

@@ -76,16 +76,19 @@ void Mediator::OnSaveImage()
 void Mediator::OnUndo()
 {
 	m_mainWindow->SetImage(m_undoHelper->Undo());
+	m_mainWindow->UpdateStateUndoButtons(m_undoHelper->UndoSize(), m_undoHelper->RedoSize());
 }
 
 void Mediator::OnRedo()
 {
 	m_mainWindow->SetImage(m_undoHelper->Redo());
+	m_mainWindow->UpdateStateUndoButtons(m_undoHelper->UndoSize(), m_undoHelper->RedoSize());
 }
 
 void Mediator::OnReset()
 {
 	m_mainWindow->SetImage(m_undoHelper->Reset());
+	m_mainWindow->UpdateStateUndoButtons(false, false);
 }
 
 void Mediator::OnApplyEffect()
@@ -96,6 +99,7 @@ void Mediator::OnApplyEffect()
 	const auto image = Utils::Image::cvMat2QImage(dst);
 	m_undoHelper->Add(image);
 	m_mainWindow->SetImage(image);
+	m_mainWindow->UpdateStateUndoButtons(m_undoHelper->UndoSize(), m_undoHelper->RedoSize());
 }
 
 }

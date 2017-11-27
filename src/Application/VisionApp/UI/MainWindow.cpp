@@ -23,3 +23,9 @@ QPixmap MainWindow::GetImage() const
 {
 	return ui->scene->GetImage();
 }
+
+void MainWindow::UpdateStateUndoButtons(bool undoEnabled, bool redoEnabled)
+{
+	ui->topPanel->SetUndoEnabled(undoEnabled);
+	ui->topPanel->SetRedoEnabled(redoEnabled);
+}

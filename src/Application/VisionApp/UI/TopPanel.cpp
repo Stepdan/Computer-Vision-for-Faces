@@ -23,3 +23,13 @@ TopPanel::~TopPanel()
 {
 	delete ui;
 }
+
+void TopPanel::SetUndoEnabled(bool enabled)
+{
+	ui->undoButton->setEnabled(enabled);
+}
+
+void TopPanel::SetRedoEnabled(bool enabled)
+{
+	ui->redoButton->setEnabled(enabled);
+}
