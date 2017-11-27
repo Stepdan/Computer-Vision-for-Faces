@@ -24,8 +24,9 @@ private slots:
 	void OnUndo();
 	void OnRedo();
 	void OnReset();
-	void OnApplyEffect();
 	void OnCompare();
+
+	void OnApplyEffect(const SharedPtr<Proc::BaseSettings>&);
 
 private:
 	SharedPtr<MainWindow> m_mainWindow;

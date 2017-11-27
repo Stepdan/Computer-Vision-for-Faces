@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1009</width>
+    <height>675</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
+    <width>1000</width>
     <height>600</height>
    </size>
   </property>
@@ -52,7 +52,10 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1" rowspan="2">
+    <item row="1" column="0">
+     <widget class="Scene" name="scene"/>
+    </item>
+    <item row="1" column="1">
      <widget class="SettingsPanel" name="settingsPanel" native="true">
       <property name="minimumSize">
        <size>
@@ -68,7 +71,7 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0">
+    <item row="2" column="0" colspan="2">
      <widget class="BottomPanel" name="bottomPanel" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -84,9 +87,6 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <widget class="Scene" name="scene"/>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -94,7 +94,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1009</width>
      <height>21</height>
     </rect>
    </property>

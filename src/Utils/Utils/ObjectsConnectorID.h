@@ -15,4 +15,8 @@ static const QString RESET            = "RESET";
 static const QString COMPARE_PRESSED  = "COMPARE_PRESSED";
 static const QString COMPARE_RELEASED = "COMPARE_RELEASED";
 
+static const QString EFFECTS_CLICKED  = "EFFECTS_CLICKED";
+static const QString EFFECT_APPLYED   = "EFFECT_APPLYED";
+static const QString EFFECT_CANCELED  = "EFFECT_CANCELED";
+
 }

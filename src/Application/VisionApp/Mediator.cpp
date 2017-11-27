@@ -38,7 +38,7 @@ Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::COMPARE_PRESSED, this, SLOT(OnCompare()));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::COMPARE_RELEASED, this, SLOT(OnCompare()));
 
-	connect(m_mainWindow.get(), &MainWindow::applyEffect, this, &Mediator::OnApplyEffect);
+	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::EFFECT_APPLYED, this, SLOT(OnApplyEffect(const SharedPtr<Proc::BaseSettings>&)));
 }
 
 void Mediator::OnLoadImage()
@@ -100,9 +100,10 @@ void Mediator::OnCompare()
 	m_undoHelper->SetOriginal(image);
 }
 
-void Mediator::OnApplyEffect()
+void Mediator::OnApplyEffect(const SharedPtr<Proc::BaseSettings>& settings)
 {
-	const auto effect = m_effectHelper->CreateEffectOne(Proc::SettingsDetailsEnhance());
+	const auto effect = m_effectHelper->CreateEffectOne(*settings);
+	effect->SetBaseSettings(*settings);
 	cv::Mat dst;
 	effect->Apply(Utils::Image::QImage2cvMat(m_mainWindow->GetImage()), dst);
 	const auto image = Utils::Image::cvMat2QImage(dst);

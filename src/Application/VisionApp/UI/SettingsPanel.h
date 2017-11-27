@@ -1,6 +1,9 @@
 #pragma once
 
 #include <QWidget>
+#include <QPointer>
+
+#include "EffectsPanel/EffectsPanel.h"
 
 namespace Ui {
 class SettingsPanel;
@@ -17,6 +20,11 @@ public:
 signals:
 	void click();
 
+private slots:
+	void OnEffectsClicked();
+
 private:
 	Ui::SettingsPanel *ui;
+
+	QPointer<EffectsPanel> m_effectsPanel;
 };

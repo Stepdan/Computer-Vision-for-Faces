@@ -45,14 +45,22 @@ public:
 		{
 		case EffectInput::One:
 			if(m_creatorsEffectsOne.find(settingsID) == m_creatorsEffectsOne.end())
+			{
 				m_creatorsEffectsOne[settingsID] = new CreatorEffectOne<T>();
+				m_effectsList.push_back(settingsID);
+			}
 			break;
 		case EffectInput::Two:
 //			if(m_creatorsEffectsTwo.find(settingsID) == m_creatorsEffectsTwo.end())
+//			{
 //				m_creatorsEffectsTwo[settingsID] = new CreatorEffectTwo<T>();
+//				m_effectsList.push_back(settingsID);
+//			}
 			break;
 		}
 	}
+
+	const std::vector<std::string> & GetEffectsList() const { return m_effectsList; }
 
 private:
 	EffectsFactory() = default;
@@ -63,6 +71,8 @@ private:
 private:
 	std::map<std::string, ICreatorOne*> m_creatorsEffectsOne;
 	std::map<std::string, ICreatorTwo*> m_creatorsEffectsTwo;
+
+	std::vector<std::string> m_effectsList;
 };
 
 }
