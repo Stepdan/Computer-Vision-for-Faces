@@ -3,7 +3,7 @@
 #include <QWidget>
 #include <QPointer>
 
-#include "EffectsPanel/EffectsPanel.h"
+#include "UI/EffectsPanel/EffectsPanel.h"
 
 namespace Ui {
 class SettingsPanel;

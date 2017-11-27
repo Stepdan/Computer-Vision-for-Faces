@@ -29,3 +29,8 @@ void MainWindow::UpdateStateUndoButtons(bool undoEnabled, bool redoEnabled)
 	ui->topPanel->SetUndoEnabled(undoEnabled);
 	ui->topPanel->SetRedoEnabled(redoEnabled);
 }
+
+void MainWindow::UpdateImageInfoText(const QString & text)
+{
+	ui->bottomPanel->SetText(text);
+}

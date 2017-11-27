@@ -14,6 +14,8 @@ public:
 	explicit BottomPanel(QWidget *parent = 0);
 	~BottomPanel();
 
+	void SetText(const QString &);
+
 private:
 	Ui::BottomPanel *ui;
 };

@@ -9,9 +9,13 @@ AddTarget(EXECUTABLE NAME VisionApp
         ${SOURCE_DIR}/*.ui
         ${SOURCE_DIR}/UI/*.ui
         ${SOURCE_DIR}/UI/EffectsPanel/*.ui
+        ${SOURCE_DIR}/UI/MainWindow/*.ui
+        ${SOURCE_DIR}/UI/Scene/*.ui
     SUBDIRS
         UI/
         UI/EffectsPanel
+        UI/MainWindow
+        UI/Scene
         ImageUtils/
         Helpers/
     DEPS

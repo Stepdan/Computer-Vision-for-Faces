@@ -1,6 +1,7 @@
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 
+#include <QFileInfo>
 #include <QFileDialog>
 #include <QString>
 
@@ -9,9 +10,8 @@
 
 #include "ImageUtils/ImageUtils.h"
 
+#include "Application.h"
 #include "Mediator.h"
-
-#include "Proc/Settings/SettingsDetailsEnhance.h"
 
 namespace
 {
@@ -58,6 +58,11 @@ void Mediator::OnLoadImage()
 	m_mainWindow->SetImage(image);
 
 	m_settings->setValue(LAST_OPEN_PATH, filename);
+
+	m_mainWindow->UpdateImageInfoText(
+				QFileInfo(filename).baseName() + "." + QFileInfo(filename).suffix()
+				+ " - width: "  + QString::number(image.width())
+				+ ", height: " + QString::number(image.height()) );
 }
 
 void Mediator::OnSaveImage()

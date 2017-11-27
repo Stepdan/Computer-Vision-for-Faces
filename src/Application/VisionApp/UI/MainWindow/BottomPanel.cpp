@@ -12,3 +12,8 @@ BottomPanel::~BottomPanel()
 {
 	delete ui;
 }
+
+void BottomPanel::SetText(const QString & info)
+{
+	ui->label->setText(info);
+}

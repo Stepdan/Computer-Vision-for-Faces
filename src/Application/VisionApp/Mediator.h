@@ -6,7 +6,7 @@
 #include "Types/Pointers.h"
 #include "Helpers/EffectHelper.h"
 #include "Helpers/UndoHelper.h"
-#include "UI/MainWindow.h"
+#include "UI/MainWindow/MainWindow.h"
 
 namespace VisionApp {
 

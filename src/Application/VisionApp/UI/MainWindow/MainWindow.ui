@@ -106,24 +106,24 @@
   <customwidget>
    <class>TopPanel</class>
    <extends>QWidget</extends>
-   <header>UI/TopPanel.h</header>
+   <header>UI/MainWindow/TopPanel.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>BottomPanel</class>
    <extends>QWidget</extends>
-   <header>UI/BottomPanel.h</header>
+   <header>UI/MainWindow/BottomPanel.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>Scene</class>
    <extends>QGraphicsView</extends>
-   <header>UI/Scene.h</header>
+   <header>UI/Scene/Scene.h</header>
   </customwidget>
   <customwidget>
    <class>SettingsPanel</class>
    <extends>QWidget</extends>
-   <header>UI/SettingsPanel.h</header>
+   <header>UI/MainWindow/SettingsPanel.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
