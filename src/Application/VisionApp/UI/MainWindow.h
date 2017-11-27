@@ -17,7 +17,7 @@ public:
 
 public:
 	void SetImage(const QImage & image);
-	QPixmap GetImage() const;
+	QImage GetImage() const;
 
 	void UpdateStateUndoButtons(bool undoEnabled, bool redoEnabled);
 

@@ -25,6 +25,7 @@ private slots:
 	void OnRedo();
 	void OnReset();
 	void OnApplyEffect();
+	void OnCompare();
 
 private:
 	SharedPtr<MainWindow> m_mainWindow;
