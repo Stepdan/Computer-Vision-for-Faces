@@ -19,7 +19,13 @@ void MainWindow::SetImage(const QImage & image)
 	ui->scene->SetImage(image);
 }
 
-QPixmap MainWindow::GetImage() const
+QImage MainWindow::GetImage() const
 {
-	return ui->scene->GetImage();
+	return ui->scene->GetImage().toImage();
+}
+
+void MainWindow::UpdateStateUndoButtons(bool undoEnabled, bool redoEnabled)
+{
+	ui->topPanel->SetUndoEnabled(undoEnabled);
+	ui->topPanel->SetRedoEnabled(redoEnabled);
 }

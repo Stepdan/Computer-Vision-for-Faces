@@ -14,6 +14,9 @@ public:
 	explicit TopPanel(QWidget *parent = 0);
 	~TopPanel();
 
+	void SetUndoEnabled(bool);
+	void SetRedoEnabled(bool);
+
 private:
 	Ui::TopPanel *ui;
 };
