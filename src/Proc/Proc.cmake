@@ -8,6 +8,7 @@ AddTarget(NAME Proc
         Proc/Interfaces/
         Proc/Settings/
         Proc/Effects/
+        Proc/Effects/Factory
     DEPS
         Types
     QT_USE

@@ -1,10 +1,10 @@
 #include "EffectHelper.h"
 
-#include "Proc/Effects/EffectsFactory.h"
-
 #include "Proc/Settings/SettingsDetailsEnhance.h"
 
 #include "Proc/Effects/EffectDetailsEnhance.h"
+
+#include "Proc/Effects/Factory/EffectsFactory.h"
 
 using namespace Proc;
 using namespace Proc::Interfaces;
