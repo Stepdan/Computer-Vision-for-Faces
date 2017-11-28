@@ -19,9 +19,9 @@ cv::Mat cvMat_argb2bgra(const cv::Mat &mat)
 	return newMat;
 }
 
-cv::Mat adjustChannelsOrder(const cv::Mat &srcMat, Utils::Image::MatColorOrder srcOrder, Utils::Image::MatColorOrder targetOrder)
+cv::Mat adjustChannelsOrder(const cv::Mat &srcMat, Core::Utils::MatColorOrder srcOrder, Core::Utils::MatColorOrder targetOrder)
 {
-	using namespace Utils::Image;
+    using namespace Core::Utils;
 	Q_ASSERT(srcMat.channels()==4);
 
 	if (srcOrder == targetOrder)
@@ -87,18 +87,18 @@ QImage::Format findClosestFormat(QImage::Format formatHint)
 	return format;
 }
 
-Utils::Image::MatColorOrder getColorOrderOfRGB32Format()
+Core::Utils::MatColorOrder getColorOrderOfRGB32Format()
 {
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
-		return Utils::Image::MatColorOrder::MCO_BGRA;
+        return Core::Utils::MatColorOrder::MCO_BGRA;
 #else
-		return Utils::Image::MatColorOrder::MCO_ARGB;
+        return Core::Utils::MatColorOrder::MCO_ARGB;
 #endif
 }
 
 }
 
-namespace Utils { namespace Image {
+namespace Core { namespace Utils {
 
 /*
  * Convert QImage to cv::Mat

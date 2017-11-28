@@ -16,10 +16,10 @@ AddTarget(EXECUTABLE NAME VisionApp
         UI/EffectsPanel
         UI/MainWindow
         UI/Scene
-        ImageUtils/
         Helpers/
     DEPS
         Types
+        Core
         Proc
         Utils
     QT_USE

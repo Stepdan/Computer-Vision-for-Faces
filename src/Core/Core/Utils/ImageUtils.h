@@ -5,7 +5,7 @@
 
 #include "opencv2/imgproc/types_c.h"
 
-namespace Utils { namespace Image {
+namespace Core { namespace Utils {
 
 enum MatColorOrder
 {

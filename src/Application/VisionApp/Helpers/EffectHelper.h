@@ -2,10 +2,15 @@
 
 #include "Types/Pointers.h"
 
+#include "Core/Interfaces/IDataImage.h"
+
 #include "Proc/Interfaces/IEffectOne.h"
 #include "Proc/Interfaces/IEffectTwo.h"
 #include "Proc/Settings/BaseSettings.h"
 
+#include "ImageHelper.h"
+
+using namespace Core::Interfaces;
 using namespace Proc::Interfaces;
 
 namespace VisionApp {
@@ -13,12 +18,14 @@ namespace VisionApp {
 class EffectHelper
 {
 public:
-	EffectHelper();
+    EffectHelper(const SharedPtr<ImageHelper>&);
 	~EffectHelper() = default;
 
 public:
-	SharedPtr<IEffectOne> CreateEffectOne(const Proc::BaseSettings & settings);
-	SharedPtr<IEffectTwo> CreateEffectTwo(const Proc::BaseSettings & settings);
+    void ApplyEffect(const SharedPtr<Proc::BaseSettings>&);
+
+private:
+    SharedPtr<ImageHelper> m_imageHelper;
 };
 
 }

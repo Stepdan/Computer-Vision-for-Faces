@@ -11,19 +11,20 @@ using namespace Proc::Interfaces;
 
 namespace VisionApp {
 
-EffectHelper::EffectHelper()
+EffectHelper::EffectHelper(const SharedPtr<ImageHelper>& helper)
+    : m_imageHelper(helper)
 {
 	EffectsFactory::Instance().Add<EffectDetailsEnhance>(SettingsDetailsEnhance::SETTINGS_ID, EffectInput::One);
 }
 
-SharedPtr<IEffectOne> EffectHelper::CreateEffectOne(const Proc::BaseSettings & settings)
+void EffectHelper::ApplyEffect(const SharedPtr<Proc::BaseSettings>& settings)
 {
-	return EffectsFactory::Instance().CreateEffectOne(settings.GetSettingsID());
-}
+    auto effect = EffectsFactory::Instance().CreateEffectOne(settings->GetSettingsID());
+    effect->SetBaseSettings(*settings);
 
-SharedPtr<IEffectTwo> EffectHelper::CreateEffectTwo(const Proc::BaseSettings & settings)
-{
-	return EffectsFactory::Instance().CreateEffectTwo(settings.GetSettingsID());
+    cv::Mat dst;
+    effect->Apply(m_imageHelper->GetCvMat(), dst);
+    m_imageHelper->SetImage(dst);
 }
 
 }
