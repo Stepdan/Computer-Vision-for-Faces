@@ -5,6 +5,7 @@
 
 #include "Types/Pointers.h"
 #include "Helpers/EffectHelper.h"
+#include "Helpers/ImageHelper.h"
 #include "Helpers/UndoHelper.h"
 #include "UI/MainWindow/MainWindow.h"
 
@@ -31,6 +32,8 @@ private slots:
 private:
 	SharedPtr<MainWindow> m_mainWindow;
 	UniquePtr<QSettings> m_settings;
+
+	SharedPtr<ImageHelper> m_imageHelper;
 
 	UniquePtr<EffectHelper> m_effectHelper;
 	UniquePtr<UndoHelper> m_undoHelper;

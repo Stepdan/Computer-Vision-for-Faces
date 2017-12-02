@@ -17,13 +17,9 @@ public:
 
 public:
 	void SetImage(const QImage & image);
-	QImage GetImage() const;
 
 	void UpdateStateUndoButtons(bool undoEnabled, bool redoEnabled);
 	void UpdateImageInfoText(const QString & text);
-
-signals:
-	void applyEffect();
 
 private:
 	Ui::MainWindow *ui;

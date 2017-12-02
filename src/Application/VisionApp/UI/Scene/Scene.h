@@ -18,7 +18,6 @@ public:
 
 public:
 	void SetImage(const QImage& image);
-	QPixmap GetImage() const;
 
 private:
 	UniquePtr<QGraphicsScene> m_scene;

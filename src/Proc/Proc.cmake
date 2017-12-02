@@ -11,6 +11,7 @@ AddTarget(NAME Proc
         Proc/Effects/Factory
     DEPS
         Types
+        Core
     QT_USE
         Core
         Widgets

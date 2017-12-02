@@ -2,7 +2,9 @@
 
 #include <list>
 
-#include <QImage>
+#include "Core/Interfaces/IDataImage.h"
+
+using namespace Core::Interfaces;
 
 namespace VisionApp {
 
@@ -12,23 +14,23 @@ public:
 	UndoHelper();
 	~UndoHelper() = default;
 
-	void SetOriginal(const QImage & image) { m_orig = image; }
-	const QImage & GetOriginal() const { return m_orig; }
+    void SetOriginal(const SharedPtr<IDataImage> & image) { m_orig = image; }
+    const SharedPtr<IDataImage> & GetOriginal() const { return m_orig; }
 
-	void Add(const QImage & image);
+    void Add(const SharedPtr<IDataImage> & image);
 
-	QImage Undo();
-	QImage Redo();
-	QImage Reset();
+    SharedPtr<IDataImage> Undo();
+    SharedPtr<IDataImage> Redo();
+    SharedPtr<IDataImage> Reset();
 
 	size_t UndoSize() const { return m_undo.size(); }
 	size_t RedoSize() const { return m_redo.size(); }
 
 public:
-	std::list<QImage> m_undo;
-	std::list<QImage> m_redo;
+    std::list<SharedPtr<IDataImage>> m_undo;
+    std::list<SharedPtr<IDataImage>> m_redo;
 
-	QImage m_orig;
+    SharedPtr<IDataImage> m_orig;
 };
 
 }

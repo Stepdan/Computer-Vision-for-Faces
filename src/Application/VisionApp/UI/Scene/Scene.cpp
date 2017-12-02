@@ -57,11 +57,3 @@ void Scene::SetImage(const QImage& image)
 	m_scene->update();
 	update();
 }
-
-QPixmap Scene::GetImage() const
-{
-	const auto itemsList = m_scene->items();
-	assert(itemsList.size() < 2);
-
-	return dynamic_cast<QGraphicsPixmapItem*>(itemsList[0])->pixmap();
-}

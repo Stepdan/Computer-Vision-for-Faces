@@ -19,6 +19,7 @@ set(FOUNDATION_ROOT ${REPO_ROOT}/foundation)
 set(SOURCE_ROOT     ${REPO_ROOT}/src)
 
 set(VISION_APP_ROOT ${SOURCE_ROOT}/Application/VisionApp)
+set(CORE_ROOT       ${SOURCE_ROOT}/Core)
 set(PROC_ROOT       ${SOURCE_ROOT}/Proc)
 set(UTILS_ROOT      ${SOURCE_ROOT}/Utils)
 set(TYPES_ROOT      ${SOURCE_ROOT}/Types)
@@ -30,6 +31,7 @@ set(CMAKE_MODULE_PATH
 	${CMAKE_ROOT}
 	${FOUNDATION_ROOT}
 	${SOURCE_ROOT}
+	${CORE_ROOT}
 	${PROC_ROOT}
 	${TYPES_ROOT}
 	${UTILS_ROOT}
@@ -48,14 +50,20 @@ include(${FOUNDATION_ROOT}/Target.cmake)
 include(${CMAKE_ROOT}/ProductConfig.cmake)
 
 include(${TYPES_ROOT}/Types.cmake)
+include(${CORE_ROOT}/Core.cmake)
 include(${PROC_ROOT}/Proc.cmake)
 include(${UTILS_ROOT}/Utils.cmake)
+
+set(EXECUTABLE_NAME "Core")
+include(${CMAKE_ROOT}/LibrariesList.cmake)
+LinkLibraries(${EXECUTABLE_NAME} "" COMMON_LIBS_PATH COMMON_LIBS)
+LinkLibraries(${EXECUTABLE_NAME} OPENCV_INCLUDES_PATH OPENCV_LIBS_PATH OPENCV_LIBS)
 
 set(EXECUTABLE_NAME "Proc")
 include(${CMAKE_ROOT}/LibrariesList.cmake)
 LinkLibraries(${EXECUTABLE_NAME} "" COMMON_LIBS_PATH COMMON_LIBS)
-LinkLibraries(${EXECUTABLE_NAME} DLIB_INCLUDES_PATH DLIB_LIBS_PATH DLIB_LIBS)
 LinkLibraries(${EXECUTABLE_NAME} OPENCV_INCLUDES_PATH OPENCV_LIBS_PATH OPENCV_LIBS)
+LinkLibraries(${EXECUTABLE_NAME} DLIB_INCLUDES_PATH DLIB_LIBS_PATH DLIB_LIBS)
 
 # Подключаем исполняемый проект
 include(${VISION_APP_ROOT}/VisionApp.cmake)

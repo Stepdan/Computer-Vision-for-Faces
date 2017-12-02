@@ -5,10 +5,11 @@
 #include <QFileDialog>
 #include <QString>
 
+#include "Core/DataImage/CvDataImage.h"
+#include "Core/DataImage/QDataImage.h"
+
 #include "Utils/ObjectsConnector.h"
 #include "Utils/ObjectsConnectorID.h"
-
-#include "ImageUtils/ImageUtils.h"
 
 #include "Application.h"
 #include "Mediator.h"
@@ -27,7 +28,8 @@ namespace VisionApp {
 Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 	: m_mainWindow(mainWindow)
 	, m_settings(new QSettings(COMPANY_NAME, PRODUCT_NAME))
-	, m_effectHelper(new EffectHelper())
+	, m_imageHelper(new ImageHelper())
+	, m_effectHelper(new EffectHelper(m_imageHelper))
 	, m_undoHelper(new UndoHelper())
 {
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::LOAD_IMAGE, this, SLOT(OnLoadImage()));
@@ -53,9 +55,11 @@ void Mediator::OnLoadImage()
 	if(filename.isEmpty())
 		return;
 
-	const auto image = Utils::Image::cvMat2QImage(cv::imread(filename.toStdString()));
-	m_undoHelper->SetOriginal(image);
-	m_mainWindow->SetImage(image);
+	m_imageHelper->SetImage(cv::imread(filename.toStdString()));
+	const auto image = m_imageHelper->GetQImage();
+
+	m_undoHelper->SetOriginal(m_imageHelper->GetDataImage());
+    m_mainWindow->SetImage(image);
 
 	m_settings->setValue(LAST_OPEN_PATH, filename);
 
@@ -75,45 +79,46 @@ void Mediator::OnSaveImage()
 	if(filename.isEmpty())
 		return;
 
-	cv::imwrite(filename.toStdString(), Utils::Image::QImage2cvMat(m_mainWindow->GetImage()));
+	cv::imwrite(filename.toStdString(), m_imageHelper->GetCvMat());
 
 	m_settings->setValue(LAST_SAVE_PATH, filename);
 }
 
 void Mediator::OnUndo()
 {
-	m_mainWindow->SetImage(m_undoHelper->Undo());
+	m_imageHelper->SetImage(m_undoHelper->Undo());
+	m_mainWindow->SetImage(m_imageHelper->GetQImage());
 	m_mainWindow->UpdateStateUndoButtons(m_undoHelper->UndoSize(), m_undoHelper->RedoSize());
 }
 
 void Mediator::OnRedo()
 {
-	m_mainWindow->SetImage(m_undoHelper->Redo());
+	m_imageHelper->SetImage(m_undoHelper->Redo());
+	m_mainWindow->SetImage(m_imageHelper->GetQImage());
 	m_mainWindow->UpdateStateUndoButtons(m_undoHelper->UndoSize(), m_undoHelper->RedoSize());
 }
 
 void Mediator::OnReset()
 {
-	m_mainWindow->SetImage(m_undoHelper->Reset());
+	m_imageHelper->SetImage(m_undoHelper->Reset());
+	m_mainWindow->SetImage(m_imageHelper->GetQImage());
 	m_mainWindow->UpdateStateUndoButtons(false, false);
 }
 
 void Mediator::OnCompare()
 {
-	const auto image = m_mainWindow->GetImage();
-	m_mainWindow->SetImage(m_undoHelper->GetOriginal());
+	const auto image = m_imageHelper->GetDataImage();
+	m_imageHelper->SetImage(m_undoHelper->GetOriginal());
+	m_mainWindow->SetImage(m_imageHelper->GetQImage());
 	m_undoHelper->SetOriginal(image);
 }
 
 void Mediator::OnApplyEffect(const SharedPtr<Proc::BaseSettings>& settings)
 {
-	const auto effect = m_effectHelper->CreateEffectOne(*settings);
-	effect->SetBaseSettings(*settings);
-	cv::Mat dst;
-	effect->Apply(Utils::Image::QImage2cvMat(m_mainWindow->GetImage()), dst);
-	const auto image = Utils::Image::cvMat2QImage(dst);
-	m_undoHelper->Add(image);
-	m_mainWindow->SetImage(image);
+    m_effectHelper->ApplyEffect(settings);
+
+	m_undoHelper->Add(m_imageHelper->GetDataImage());
+	m_mainWindow->SetImage(m_imageHelper->GetQImage());
 	m_mainWindow->UpdateStateUndoButtons(m_undoHelper->UndoSize(), m_undoHelper->RedoSize());
 }
 

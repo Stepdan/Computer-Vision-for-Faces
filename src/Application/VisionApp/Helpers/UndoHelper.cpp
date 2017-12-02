@@ -1,18 +1,20 @@
 #include "UndoHelper.h"
 
+using namespace Core::Interfaces;
+
 namespace VisionApp {
 
 UndoHelper::UndoHelper()
 {
 }
 
-void UndoHelper::Add(const QImage & image)
+void UndoHelper::Add(const SharedPtr<IDataImage> & image)
 {
 	m_redo.clear();
 	m_undo.push_back(image);
 }
 
-QImage UndoHelper::Undo()
+SharedPtr<IDataImage> UndoHelper::Undo()
 {
 	if(m_undo.size() == 0)
 		return m_orig;
@@ -23,7 +25,7 @@ QImage UndoHelper::Undo()
 	return m_undo.size() ? m_undo.back() : m_orig;
 }
 
-QImage UndoHelper::Redo()
+SharedPtr<IDataImage> UndoHelper::Redo()
 {
 	const auto image = m_redo.back();
 	m_undo.push_back(image);
@@ -32,7 +34,7 @@ QImage UndoHelper::Redo()
 	return image;
 }
 
-QImage UndoHelper::Reset()
+SharedPtr<IDataImage> UndoHelper::Reset()
 {
 	m_undo.clear();
 	m_redo.clear();
