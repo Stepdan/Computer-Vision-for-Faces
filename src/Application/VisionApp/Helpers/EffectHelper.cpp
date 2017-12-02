@@ -1,8 +1,10 @@
 #include "EffectHelper.h"
 
 #include "Proc/Settings/SettingsDetailsEnhance.h"
+#include "Proc/Settings/SettingsFaceDetection.h"
 
 #include "Proc/Effects/EffectDetailsEnhance.h"
+#include "Proc/Effects/EffectFaceDetection.h"
 
 #include "Proc/Effects/Factory/EffectsFactory.h"
 
@@ -14,7 +16,8 @@ namespace VisionApp {
 EffectHelper::EffectHelper(const SharedPtr<ImageHelper>& helper)
     : m_imageHelper(helper)
 {
-	EffectsFactory::Instance().Add<EffectDetailsEnhance>(SettingsDetailsEnhance::SETTINGS_ID, EffectInput::One);
+	EffectsFactory::Instance().Add<EffectDetailsEnhance>(SettingsDetailsEnhance	::SETTINGS_ID, EffectInput::One);
+	EffectsFactory::Instance().Add<EffectFaceDetection >(SettingsFaceDetection	::SETTINGS_ID, EffectInput::One);
 }
 
 void EffectHelper::ApplyEffect(const SharedPtr<Proc::BaseSettings>& settings)

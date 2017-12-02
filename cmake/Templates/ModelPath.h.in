@@ -1,0 +1,15 @@
+// Template file with pathes to models
+
+#pragma once
+
+#include <map>
+
+namespace {
+
+const std::string DLIB_FACE_68 = "DLIB_FACE_68";
+
+std::map<std::string, std::string> g_modelPath = {
+	{ DLIB_FACE_68, "@DLIB_FACE_68@" },
+};
+
+}

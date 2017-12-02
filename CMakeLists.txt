@@ -42,11 +42,11 @@ set(CMAKE_MODULE_PATH
 # Configuring #
 ###############
 
-# cmake functions
-include(${FOUNDATION_ROOT}/LinkLibraries.cmake)
 include(${FOUNDATION_ROOT}/Target.cmake)
 
-# Product config
+# cmake functions
+include(${FOUNDATION_ROOT}/LinkLibraries.cmake)
+
 include(${CMAKE_ROOT}/ProductConfig.cmake)
 
 include(${TYPES_ROOT}/Types.cmake)
