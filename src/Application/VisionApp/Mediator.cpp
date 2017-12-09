@@ -8,11 +8,15 @@
 #include "Core/DataImage/CvDataImage.h"
 #include "Core/DataImage/QDataImage.h"
 
+#include "Capture/Controller/CaptureController.h"
+
 #include "Utils/ObjectsConnector.h"
 #include "Utils/ObjectsConnectorID.h"
 
 #include "Application.h"
 #include "Mediator.h"
+
+#include <QDebug>
 
 namespace
 {
@@ -31,6 +35,7 @@ Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 	, m_imageHelper(new ImageHelper())
 	, m_effectHelper(new EffectHelper(m_imageHelper))
 	, m_undoHelper(new UndoHelper())
+	, m_capture(new Capture::CaptureController())
 {
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::LOAD_IMAGE, this, SLOT(OnLoadImage()));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::SAVE_IMAGE, this, SLOT(OnSaveImage()));
@@ -41,6 +46,11 @@ Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::COMPARE_RELEASED, this, SLOT(OnCompare()));
 
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::EFFECT_APPLYED, this, SLOT(OnApplyEffect(const SharedPtr<Proc::BaseSettings>&)));
+
+	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::CAPTURE_STARTED, this, SLOT(OnStartCapture()));
+	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::CAPTURE_CANCELED, this, SLOT(OnStopCapture()));
+
+	connect(m_capture.get(), &Capture::CaptureController::frameCaptured, this, &Mediator::OnFrameCaptured);
 }
 
 void Mediator::OnLoadImage()
@@ -59,7 +69,7 @@ void Mediator::OnLoadImage()
 	const auto image = m_imageHelper->GetQImage();
 
 	m_undoHelper->SetOriginal(m_imageHelper->GetDataImage());
-    m_mainWindow->SetImage(image);
+	m_mainWindow->SetImage(image);
 
 	m_settings->setValue(LAST_OPEN_PATH, filename);
 
@@ -115,11 +125,27 @@ void Mediator::OnCompare()
 
 void Mediator::OnApplyEffect(const SharedPtr<Proc::BaseSettings>& settings)
 {
-    m_effectHelper->ApplyEffect(settings);
+	m_effectHelper->ApplyEffect(settings);
 
 	m_undoHelper->Add(m_imageHelper->GetDataImage());
 	m_mainWindow->SetImage(m_imageHelper->GetQImage());
 	m_mainWindow->UpdateStateUndoButtons(m_undoHelper->UndoSize(), m_undoHelper->RedoSize());
+}
+
+void Mediator::OnStartCapture()
+{
+	m_capture->Start();
+}
+
+void Mediator::OnStopCapture()
+{
+	m_capture->Stop();
+}
+
+void Mediator::OnFrameCaptured(const QImage & frame)
+{
+	qDebug() << "OnFrameCaptured";
+	m_mainWindow->SetImage(frame);
 }
 
 }

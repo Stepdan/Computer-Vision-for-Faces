@@ -24,6 +24,10 @@ public:
     QImage GetQImage();
     cv::Mat GetCvMat();
 
+	QImage Convert2QImage(const SharedPtr<IDataImage> &);
+	QImage Convert2QImage(const cv::Mat &);
+	cv::Mat Convert2cvImage(const SharedPtr<IDataImage> &);
+
 private:
     SharedPtr<IDataImage> m_image;
 };

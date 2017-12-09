@@ -60,5 +60,31 @@ cv::Mat ImageHelper::GetCvMat()
     }
 }
 
+QImage ImageHelper::Convert2QImage(const SharedPtr<IDataImage> & image)
+{
+	switch(image->GetImpl())
+	{
+	case Core::ImageImpl::Qt:
+		return dynamic_cast<Core::QDataImage*>(image.get())->GetQImage();
+	case Core::ImageImpl::OpenCV:
+		return Core::Utils::cvMat2QImage(dynamic_cast<Core::CvDataImage*>(image.get())->GetCvMat());
+	}
+}
+
+QImage ImageHelper::Convert2QImage(const cv::Mat & cvImage)
+{
+	return Core::Utils::cvMat2QImage(cvImage);
+}
+
+cv::Mat ImageHelper::Convert2cvImage(const SharedPtr<IDataImage> & image)
+{
+	switch(image->GetImpl())
+	{
+	case Core::ImageImpl::Qt:
+		return Core::Utils::QImage2cvMat(dynamic_cast<Core::QDataImage*>(image.get())->GetQImage());
+	case Core::ImageImpl::OpenCV:
+		return dynamic_cast<Core::CvDataImage*>(image.get())->GetCvMat();
+	}
+}
 
 }

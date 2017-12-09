@@ -24,16 +24,16 @@
     <number>5</number>
    </property>
    <property name="leftMargin">
-    <number>5</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
-    <number>5</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>5</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>5</number>
+    <number>0</number>
    </property>
    <item>
     <widget class="QPushButton" name="undoButton">
@@ -172,6 +172,25 @@
      </property>
      <property name="text">
       <string>Effects</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="captureButton">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>45</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Capture</string>
      </property>
     </widget>
    </item>
