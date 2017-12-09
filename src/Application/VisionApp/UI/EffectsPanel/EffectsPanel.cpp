@@ -11,7 +11,6 @@
 
 #include "Proc/Effects/Factory/EffectsFactory.h"
 #include "Proc/Settings/BaseSettings.h"
-#include "Proc/Settings/SettingsDetailsEnhance.h"
 
 #include "Utils/ObjectsConnector.h"
 #include "Utils/ObjectsConnectorID.h"
@@ -54,7 +53,6 @@ EffectsPanel::EffectsPanel(QWidget *parent) :
 	connect(ui->comboBox, (void (QComboBox::*)(int))&QComboBox::currentIndexChanged, this, &EffectsPanel::OnEffectChanged);
 	connect(ui->okButton, &QAbstractButton::clicked, this, [this](){ emit effectApplyed(m_settings); });
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::EFFECT_APPLYED, this, SIGNAL(effectApplyed(const SharedPtr<Proc::BaseSettings>&)));
-
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::EFFECT_CANCELED, ui->cancelButton, SIGNAL(clicked()));
 }
 

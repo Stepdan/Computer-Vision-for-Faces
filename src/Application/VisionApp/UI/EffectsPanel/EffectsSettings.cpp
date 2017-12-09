@@ -5,6 +5,7 @@
 
 #include "Proc/Settings/BaseSettings.h"
 #include "Proc/Settings/SettingsDetailsEnhance.h"
+#include "Proc/Settings/SettingsFaceDetection.h"
 
 namespace VisionApp { namespace EffectsSettings {
 
@@ -70,10 +71,20 @@ SharedPtr<Proc::BaseSettings> SettingsDetailsEnhance(QBoxLayout *layout)
 	return settings;
 }
 
+//----------------------------------------------------------
+
+SharedPtr<Proc::BaseSettings> SettingsFaceDetection(QBoxLayout *layout)
+{
+	auto settings = GreateSettings<Proc::SettingsFaceDetection>();
+
+	return settings;
+}
+
 }
 
 const SettingsCreatorList g_settingsCreator {
-	{ "DetailsEnhance", &SettingsDetailsEnhance }
+	{ "DetailsEnhance", &SettingsDetailsEnhance },
+	{ "FaceDetection", &SettingsFaceDetection }
 };
 
 const SettingsCreatorList& GetSettingsCreatorList()
