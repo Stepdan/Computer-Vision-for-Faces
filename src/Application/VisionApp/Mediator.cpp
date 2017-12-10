@@ -16,8 +16,6 @@
 #include "Application.h"
 #include "Mediator.h"
 
-#include <QDebug>
-
 namespace
 {
 const QString COMPANY_NAME = "StepCo";
@@ -50,7 +48,9 @@ Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::CAPTURE_STARTED, this, SLOT(OnStartCapture()));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::CAPTURE_CANCELED, this, SLOT(OnStopCapture()));
 
+	qRegisterMetaType<Capture::CaptureInfo>("Capture::CaptureInfo");
 	connect(m_capture.get(), &Capture::CaptureController::frameCaptured, this, &Mediator::OnFrameCaptured);
+	connect(m_capture.get(), &Capture::CaptureController::captureInfoChanged, this, &Mediator::OnCaptureInfoChanged);
 }
 
 void Mediator::OnLoadImage()
@@ -144,8 +144,15 @@ void Mediator::OnStopCapture()
 
 void Mediator::OnFrameCaptured(const QImage & frame)
 {
-	qDebug() << "OnFrameCaptured";
 	m_mainWindow->SetImage(frame);
+}
+
+void Mediator::OnCaptureInfoChanged(const Capture::CaptureInfo & info)
+{
+	m_mainWindow->UpdateImageInfoText(
+				"Width: "  + QString::number(info.width)  + " "
+				"Height: " + QString::number(info.height) + " "
+				"FPS: "    + QString::number(info.fps));
 }
 
 }

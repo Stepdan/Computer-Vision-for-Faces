@@ -5,6 +5,7 @@ AddTarget(NAME Capture
         *.cpp
         *.h
     SUBDIRS
+        Capture/
         Capture/Controller
     DEPS
         Types

@@ -32,6 +32,7 @@ private slots:
 	void OnStartCapture();
 	void OnStopCapture();
 	void OnFrameCaptured(const QImage &);
+	void OnCaptureInfoChanged(const Capture::CaptureInfo &);
 
 private:
 	SharedPtr<MainWindow> m_mainWindow;
