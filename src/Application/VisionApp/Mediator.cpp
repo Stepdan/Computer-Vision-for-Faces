@@ -55,6 +55,9 @@ Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 
 void Mediator::OnLoadImage()
 {
+	if(m_capture->IsCaptured())
+		m_capture->Stop();
+
 	OnReset();
 
 	const auto lastPath = m_settings->value(LAST_OPEN_PATH, "C:/").toString();

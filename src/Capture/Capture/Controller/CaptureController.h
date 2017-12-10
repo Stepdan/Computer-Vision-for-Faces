@@ -21,6 +21,8 @@ public:
 	explicit CaptureController();
 	~CaptureController() = default;
 
+	bool IsCaptured() const { return m_isCaptured; }
+
 	void Start();
 	void Stop();
 
@@ -32,7 +34,7 @@ signals:
 
 private:
 	UniquePtr<std::thread> m_captureThread;
-	bool m_needCapture = false;
+	bool m_isCaptured = false;
 
 	CaptureInfo m_captureInfo;
 

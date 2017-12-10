@@ -19,7 +19,7 @@ CaptureController::CaptureController()
 
 void CaptureController::Start()
 {
-	m_needCapture = true;
+	m_isCaptured = true;
 
 	m_captureThread = std::make_unique<std::thread>([this]()
 	{
@@ -28,21 +28,21 @@ void CaptureController::Start()
 
 		cv::VideoCapture cvCapture(0);
 		if(!cvCapture.isOpened())
-			m_needCapture = false;
+			m_isCaptured = false;
 
 		std::time(&startTime);
-		while(m_needCapture)
+		while(m_isCaptured)
 		{
 			cv::Mat cvFrame;
 			cvCapture.read(cvFrame);
-			++frameCount;
 
 			if(cvFrame.empty())
 			{
-				m_needCapture = false;
+				m_isCaptured = false;
 				break;
 			}
 
+			++frameCount;
 			std::time(&endTime);
 			if(std::difftime(endTime, startTime) > 1)
 			{
@@ -73,7 +73,7 @@ void CaptureController::Start()
 
 void CaptureController::Stop()
 {
-	m_needCapture = false;
+	m_isCaptured = false;
 }
 
 void CaptureController::AddEffect(const Proc::BaseSettings & settings)
