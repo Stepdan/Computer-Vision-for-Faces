@@ -10,14 +10,17 @@ SettingsPanel::SettingsPanel(QWidget *parent)
 	: QWidget(parent)
 	, ui(new Ui::SettingsPanel)
 	, m_effectsPanel(new EffectsPanel(this))
+	, m_capturePanel(new CapturePanel(this))
 {
 	ui->setupUi(this);
 
 	ui->stackedWidget->addWidget(m_effectsPanel);
+	ui->stackedWidget->addWidget(m_capturePanel);
 
 	ui->stackedWidget->setCurrentWidget(m_effectsPanel);
 
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::EFFECTS_CLICKED, this, SLOT(OnEffectsClicked()));
+	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::CAPTURE_CLICKED, this, SLOT(OnCaptureClicked()));
 }
 
 SettingsPanel::~SettingsPanel()
@@ -28,4 +31,9 @@ SettingsPanel::~SettingsPanel()
 void SettingsPanel::OnEffectsClicked()
 {
 	ui->stackedWidget->setCurrentWidget(m_effectsPanel);
+}
+
+void SettingsPanel::OnCaptureClicked()
+{
+	ui->stackedWidget->setCurrentWidget(m_capturePanel);
 }

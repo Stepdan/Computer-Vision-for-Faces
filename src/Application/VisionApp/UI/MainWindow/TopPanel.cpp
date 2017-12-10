@@ -19,7 +19,9 @@ TopPanel::TopPanel(QWidget *parent) :
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::RESET, ui->resetButton, SIGNAL(clicked()));
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::COMPARE_PRESSED, ui->compareButton, SIGNAL(pressed()));
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::COMPARE_RELEASED, ui->compareButton, SIGNAL(released()));
+
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::EFFECTS_CLICKED, ui->effectsButton, SIGNAL(clicked()));
+	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::CAPTURE_CLICKED, ui->captureButton, SIGNAL(clicked()));
 }
 
 TopPanel::~TopPanel()

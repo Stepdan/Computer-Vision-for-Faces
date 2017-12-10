@@ -3,7 +3,7 @@
 #include <QObject>
 #include <QSettings>
 
-#include "Types/Pointers.h"
+#include "Capture/Controller/CaptureController.h"
 #include "Helpers/EffectHelper.h"
 #include "Helpers/ImageHelper.h"
 #include "Helpers/UndoHelper.h"
@@ -29,6 +29,11 @@ private slots:
 
 	void OnApplyEffect(const SharedPtr<Proc::BaseSettings>&);
 
+	void OnStartCapture();
+	void OnStopCapture();
+	void OnFrameCaptured(const QImage &);
+	void OnCaptureInfoChanged(const Capture::CaptureInfo &);
+
 private:
 	SharedPtr<MainWindow> m_mainWindow;
 	UniquePtr<QSettings> m_settings;
@@ -37,6 +42,8 @@ private:
 
 	UniquePtr<EffectHelper> m_effectHelper;
 	UniquePtr<UndoHelper> m_undoHelper;
+
+	SharedPtr<Capture::CaptureController> m_capture;
 };
 
 }

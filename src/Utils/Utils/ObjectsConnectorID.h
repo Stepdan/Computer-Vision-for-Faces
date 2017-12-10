@@ -19,4 +19,10 @@ static const QString EFFECTS_CLICKED  = "EFFECTS_CLICKED";
 static const QString EFFECT_APPLYED   = "EFFECT_APPLYED";
 static const QString EFFECT_CANCELED  = "EFFECT_CANCELED";
 
+static const QString CAPTURE_CLICKED   = "CAPTURE_CLICKED";
+static const QString CAPTURE_STARTED   = "CAPTURE_STARTED";
+static const QString CAPTURE_CANCELED  = "CAPTURE_CANCELED";
+
+static const QString CAPTURED_FRAME_CHANGED = "CAPTURED_FRAME_CHANGED";
+
 }
