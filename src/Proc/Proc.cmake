@@ -9,6 +9,7 @@ AddTarget(NAME Proc
         Proc/Settings/
         Proc/Effects/
         Proc/Effects/Factory
+        Proc/Utils/
     DEPS
         Types
         Core

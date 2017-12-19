@@ -94,4 +94,9 @@ void CaptureController::AddEffect(const Proc::BaseSettings & settings)
 	}
 }
 
+void CaptureController::ClearEffects()
+{
+	m_effectsOne.clear();
+}
+
 }

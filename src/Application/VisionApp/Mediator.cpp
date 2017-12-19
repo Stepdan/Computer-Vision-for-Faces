@@ -116,6 +116,8 @@ void Mediator::OnReset()
 	m_imageHelper->SetImage(m_undoHelper->Reset());
 	m_mainWindow->SetImage(m_imageHelper->GetQImage());
 	m_mainWindow->UpdateStateUndoButtons(false, false);
+
+	m_capture->ClearEffects();
 }
 
 void Mediator::OnCompare()
@@ -129,6 +131,7 @@ void Mediator::OnCompare()
 void Mediator::OnApplyEffect(const SharedPtr<Proc::BaseSettings>& settings)
 {
 	m_effectHelper->ApplyEffect(settings);
+	m_capture->AddEffect(*settings);
 
 	m_undoHelper->Add(m_imageHelper->GetDataImage());
 	m_mainWindow->SetImage(m_imageHelper->GetQImage());
