@@ -13,8 +13,7 @@ namespace Proc {
 class SettingsFaceDetection : public BaseSettings
 {
 public:
-	PROC_SETTINGS(SettingsDetailsEnhance)
-	const std::string & GetSettingsID() const { return SETTINGS_ID; }
+	PROC_SETTINGS(SettingsFaceDetection)
 
 	SettingsFaceDetection() = default;
 

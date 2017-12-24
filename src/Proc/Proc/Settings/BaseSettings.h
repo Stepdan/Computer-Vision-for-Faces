@@ -15,6 +15,7 @@ protected:
 };
 
 #define PROC_SETTINGS(SettingsID) \
-	static const std::string SETTINGS_ID;
+	static const std::string SETTINGS_ID;\
+	const std::string & GetSettingsID() const { return SETTINGS_ID; }
 
 }

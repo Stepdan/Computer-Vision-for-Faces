@@ -27,6 +27,7 @@ public:
 	void Stop();
 
 	void AddEffect(const Proc::BaseSettings &);
+	void ClearEffects();
 
 signals:
 	void frameCaptured(const QImage &);
