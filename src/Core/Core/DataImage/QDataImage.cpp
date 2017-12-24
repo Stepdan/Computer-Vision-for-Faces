@@ -53,4 +53,10 @@ const FrameInfo & QDataImage::GetFrameInfo()
     return { m_image.width(), m_image.height() };
 }
 
+SharedPtr<IDataImage> QDataImage::Subframe(int x0, int y0, int width, int height)
+{
+	return SharedPtr<IDataImage>(new QDataImage(m_image.copy(x0, y0, width, height)));
+}
+
+
 }

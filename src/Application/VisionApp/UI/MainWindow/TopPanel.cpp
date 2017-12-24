@@ -13,6 +13,7 @@ TopPanel::TopPanel(QWidget *parent) :
 	ui->setupUi(this);
 
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::LOAD_IMAGE, ui->loadButton, SIGNAL(clicked()));
+	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::LOAD_IMAGE2, ui->load2Button, SIGNAL(clicked()));
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::SAVE_IMAGE, ui->saveButton, SIGNAL(clicked()));
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::UNDO, ui->undoButton, SIGNAL(clicked()));
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::REDO, ui->redoButton, SIGNAL(clicked()));

@@ -29,6 +29,10 @@ void ImageHelper::SetImage(const cv::Mat& cvMat)
     m_image.reset(new Core::CvDataImage(cvMat));
 }
 
+void ImageHelper::SetImage2(const cv::Mat& cvMat)
+{
+	m_image2.reset(new Core::CvDataImage(cvMat));
+}
 
 SharedPtr<IDataImage> ImageHelper::GetDataImage()
 {
@@ -58,6 +62,17 @@ cv::Mat ImageHelper::GetCvMat()
     case Core::ImageImpl::OpenCV:
         return dynamic_cast<Core::CvDataImage*>(m_image.get())->GetCvMat();
     }
+}
+
+cv::Mat ImageHelper::GetCvMat2()
+{
+	switch(m_image2->GetImpl())
+	{
+	case Core::ImageImpl::Qt:
+		return Core::Utils::QImage2cvMat(dynamic_cast<Core::QDataImage*>(m_image2.get())->GetQImage());
+	case Core::ImageImpl::OpenCV:
+		return dynamic_cast<Core::CvDataImage*>(m_image2.get())->GetCvMat();
+	}
 }
 
 QImage ImageHelper::Convert2QImage(const SharedPtr<IDataImage> & image)

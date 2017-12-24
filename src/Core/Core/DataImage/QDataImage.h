@@ -23,6 +23,7 @@ public: // IDataImage
     SharedPtr<IDataImage> ChangeImpl()    override;
     void                  ColorSpaceConvert(ColorSpace cs) override;
     const FrameInfo &     GetFrameInfo()  override;
+	SharedPtr<IDataImage> Subframe(int x0 = 0, int y0 = 0, int width = -1, int height = -1) override;
 
 public:
     QImage GetQImage() const { return m_image; }

@@ -36,6 +36,7 @@ Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 	, m_capture(new Capture::CaptureController())
 {
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::LOAD_IMAGE, this, SLOT(OnLoadImage()));
+	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::LOAD_IMAGE2, this, SLOT(OnLoadImage2()));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::SAVE_IMAGE, this, SLOT(OnSaveImage()));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::UNDO, this, SLOT(OnUndo()));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::REDO, this, SLOT(OnRedo()));
@@ -80,6 +81,19 @@ void Mediator::OnLoadImage()
 				QFileInfo(filename).baseName() + "." + QFileInfo(filename).suffix()
 				+ " - width: "  + QString::number(image.width())
 				+ ", height: " + QString::number(image.height()) );
+}
+
+void Mediator::OnLoadImage2()
+{
+	const auto lastPath = m_settings->value(LAST_OPEN_PATH, "C:/").toString();
+
+	const QString filter = "All Files (*.*)";
+	const auto filename = QFileDialog::getOpenFileName(m_mainWindow.get(), "Open file", lastPath, filter);
+
+	if(filename.isEmpty())
+		return;
+
+	m_imageHelper->SetImage2(cv::imread(filename.toStdString()));
 }
 
 void Mediator::OnSaveImage()

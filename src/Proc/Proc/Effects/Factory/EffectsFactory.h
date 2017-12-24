@@ -39,28 +39,29 @@ public:
 	SharedPtr<IEffectTwo> CreateEffectTwo(const std::string & settingsID) const;
 
 	template<class T>
-	void EffectsFactory::Add(const std::string & settingsID, EffectInput in)
+	void EffectsFactory::AddEffectOne(const std::string & settingsID)
 	{
-		switch(in)
+		if(m_creatorsEffectsOne.find(settingsID) == m_creatorsEffectsOne.end())
 		{
-		case EffectInput::One:
-			if(m_creatorsEffectsOne.find(settingsID) == m_creatorsEffectsOne.end())
-			{
-				m_creatorsEffectsOne[settingsID] = new CreatorEffectOne<T>();
-				m_effectsList.push_back(settingsID);
-			}
-			break;
-		case EffectInput::Two:
-//			if(m_creatorsEffectsTwo.find(settingsID) == m_creatorsEffectsTwo.end())
-//			{
-//				m_creatorsEffectsTwo[settingsID] = new CreatorEffectTwo<T>();
-//				m_effectsList.push_back(settingsID);
-//			}
-			break;
+			m_creatorsEffectsOne[settingsID] = new CreatorEffectOne<T>();
+			m_effectsList.push_back(settingsID);
+			m_settings2Input.emplace(settingsID, EffectInput::One);
+		}
+	}
+
+	template<class T>
+	void EffectsFactory::AddEffectTwo(const std::string & settingsID)
+	{
+		if(m_creatorsEffectsTwo.find(settingsID) == m_creatorsEffectsTwo.end())
+		{
+			m_creatorsEffectsTwo[settingsID] = new CreatorEffectTwo<T>();
+			m_effectsList.push_back(settingsID);
+			m_settings2Input.emplace(settingsID, EffectInput::Two);
 		}
 	}
 
 	const std::vector<std::string> & GetEffectsList() const { return m_effectsList; }
+	EffectInput GetEffectInput(const std::string & settingsID);
 
 private:
 	EffectsFactory() = default;
@@ -73,6 +74,7 @@ private:
 	std::map<std::string, ICreatorTwo*> m_creatorsEffectsTwo;
 
 	std::vector<std::string> m_effectsList;
+	std::map<std::string, Proc::EffectInput> m_settings2Input;
 };
 
 }

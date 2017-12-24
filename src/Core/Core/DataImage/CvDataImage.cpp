@@ -53,4 +53,9 @@ const FrameInfo & CvDataImage::GetFrameInfo()
     return { m_image.cols, m_image.rows };
 }
 
+SharedPtr<IDataImage> CvDataImage::Subframe(int x0, int y0, int width, int height)
+{
+	return SharedPtr<IDataImage>(new CvDataImage(cv::Mat(m_image, cv::Rect(x0, y0, width, height))));
+}
+
 }

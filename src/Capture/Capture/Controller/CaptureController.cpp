@@ -78,6 +78,9 @@ void CaptureController::Stop()
 
 void CaptureController::AddEffect(const Proc::BaseSettings & settings)
 {
+	if (Proc::EffectsFactory::Instance().GetEffectInput(settings.GetSettingsID()) == Proc::EffectInput::Two)
+		return;
+
 	auto it = std::find_if(m_effectsOne.cbegin(), m_effectsOne.cend(),
 					[&settings](const SharedPtr<IEffectOne>& e) { return e->GetBaseSettings().GetSettingsID() == settings.GetSettingsID(); });
 

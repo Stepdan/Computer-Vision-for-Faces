@@ -28,6 +28,7 @@ public:
     virtual SharedPtr<IDataImage> ChangeImpl()                     = 0;
     virtual void                  ColorSpaceConvert(ColorSpace cs) = 0;
     virtual const FrameInfo&      GetFrameInfo()                   = 0;
+	virtual SharedPtr<IDataImage> Subframe(int x0, int y0, int width, int height) = 0;
 };
 
 }}

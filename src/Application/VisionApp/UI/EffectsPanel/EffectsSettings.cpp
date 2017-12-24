@@ -7,6 +7,7 @@
 #include "DoubleFieldSpinBox.h"
 
 #include "Proc/Settings/BaseSettings.h"
+#include "Proc/Settings/SettingsColorTransfer.h"
 #include "Proc/Settings/SettingsDetailsEnhance.h"
 #include "Proc/Settings/SettingsFaceDetection.h"
 #include "Proc/Settings/SettingsFilter.h"
@@ -77,6 +78,15 @@ SharedPtr<T> CreateSettings()
 
 //----------------------------------------------------------
 
+SharedPtr<Proc::BaseSettings> SettingsColorTransfer(QBoxLayout *layout)
+{
+	auto settings = CreateSettings<Proc::SettingsColorTransfer>();
+
+	return settings;
+}
+
+//----------------------------------------------------------
+
 SharedPtr<Proc::BaseSettings> SettingsDetailsEnhance(QBoxLayout *layout)
 {
 	auto settings = CreateSettings<Proc::SettingsDetailsEnhance>();
@@ -123,6 +133,7 @@ SharedPtr<Proc::BaseSettings> SettingsFilter(QBoxLayout *layout)
 }
 
 const SettingsCreatorList g_settingsCreator {
+	{ "ColorTransfer", &SettingsColorTransfer },
 	{ "DetailsEnhance", &SettingsDetailsEnhance },
 	{ "FaceDetection", &SettingsFaceDetection },
 	{ "Filter", &SettingsFilter }

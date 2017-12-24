@@ -35,6 +35,9 @@ SharedPtr<IEffectTwo> EffectsFactory::CreateEffectTwo(const std::string & settin
 	return it->second->Create();
 }
 
-
+EffectInput EffectsFactory::GetEffectInput(const std::string & settingsID)
+{
+	return m_settings2Input[settingsID];
+}
 
 }

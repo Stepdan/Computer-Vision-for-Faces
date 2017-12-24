@@ -21,6 +21,7 @@ public:
 
 private slots:
 	void OnLoadImage();
+	void OnLoadImage2();
 	void OnSaveImage();
 	void OnUndo();
 	void OnRedo();
