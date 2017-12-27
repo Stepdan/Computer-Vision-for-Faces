@@ -21,7 +21,8 @@ constexpr size_t EYE_LEFT = 36;
 constexpr size_t EYE_RIGHT = 42;
 constexpr size_t MOUTH_OUTER = 48;
 constexpr size_t MOUTH_INNER = 60;
-constexpr size_t POINTS_COUNT = 68;
+constexpr size_t PUPILS_POINTS = 68;
+constexpr size_t POINTS_COUNT = 70;
 
 }
 
@@ -45,7 +46,7 @@ const BaseSettings & EffectFaceDetection::GetBaseSettings() const
 void EffectFaceDetection::Apply(const cv::Mat & src, cv::Mat & dst)
 {
 	dlib::shape_predictor sp;
-	dlib::deserialize(g_modelPath[DLIB_FACE_68]) >> sp;
+	dlib::deserialize(g_modelPath[DLIB_FACE_70]) >> sp;
 
 	dlib::cv_image<dlib::rgb_pixel> image(src);
 	auto detector = dlib::get_frontal_face_detector();
@@ -82,12 +83,16 @@ void EffectFaceDetection::Apply(const cv::Mat & src, cv::Mat & dst)
 		for (size_t i = MOUTH_INNER; i < POINTS_COUNT; ++i)
 			mouthInner.push_back({shape.part(i).x(), shape.part(i).y()});
 
+		PairPoint pupils = { {shape.part(PUPILS_POINTS)  .x(), shape.part(PUPILS_POINTS)  .y()},
+							 {shape.part(PUPILS_POINTS+1).x(), shape.part(PUPILS_POINTS+1).y()} };
+
 		Face face(faceContour
 			, { leftEyebrow, rightEyebrow }
 			, { noseVertical, noseHorizontal }
 			, { leftEye, rightEye }
 			, { mouthOuter, mouthInner }
 			, { { det.left(), det.top() },{ det.right(), det.bottom() } }
+			, pupils
 		);
 		m_settings.AddFace(face);
 	}

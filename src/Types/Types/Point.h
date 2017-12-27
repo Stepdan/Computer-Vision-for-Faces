@@ -6,6 +6,7 @@ namespace Types {
 
 struct Point
 {
+	Point() = default;
 	Point(int X, int Y) : x(X), y(Y) {}
 	int x, y;
 };
