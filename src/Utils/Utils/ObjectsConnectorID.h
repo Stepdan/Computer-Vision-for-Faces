@@ -24,6 +24,8 @@ static const QString CAPTURE_CLICKED   = "CAPTURE_CLICKED";
 static const QString CAPTURE_STARTED   = "CAPTURE_STARTED";
 static const QString CAPTURE_CANCELED  = "CAPTURE_CANCELED";
 
+static const QString TRAINING_CLICKED = "TRAINING_CLICKED";
+
 static const QString CAPTURED_FRAME_CHANGED = "CAPTURED_FRAME_CHANGED";
 
 }

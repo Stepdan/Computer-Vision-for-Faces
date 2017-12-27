@@ -5,6 +5,7 @@
 
 #include "UI/EffectsPanel/EffectsPanel.h"
 #include "UI/CapturePanel/CapturePanel.h"
+#include "UI/TrainingPanel/TrainingPanel.h"
 
 namespace Ui {
 class SettingsPanel;
@@ -24,10 +25,12 @@ signals:
 private slots:
 	void OnEffectsClicked();
 	void OnCaptureClicked();
+	void OnTrainingClicked();
 
 private:
 	Ui::SettingsPanel *ui;
 
 	QPointer<EffectsPanel> m_effectsPanel;
 	QPointer<CapturePanel> m_capturePanel;
+	QPointer<TrainingPanel> m_trainingPanel;
 };

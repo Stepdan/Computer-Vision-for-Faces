@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>667</width>
+    <width>952</width>
     <height>50</height>
    </rect>
   </property>
@@ -21,7 +21,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="leftMargin">
     <number>5</number>
@@ -210,6 +210,44 @@
      </property>
      <property name="text">
       <string>Capture</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="trainingButton">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>45</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Training</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="retouchButton">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>45</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Retouch</string>
      </property>
     </widget>
    </item>
