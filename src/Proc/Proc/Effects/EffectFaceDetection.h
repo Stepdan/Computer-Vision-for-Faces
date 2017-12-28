@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types/Pointers.h"
+
 #include "Proc/Interfaces/IEffectOne.h"
 
 #include "Proc/Settings/SettingsFaceDetection.h"
@@ -20,7 +22,13 @@ public:
 	void Apply(const cv::Mat & src, cv::Mat & dst) override;
 
 private:
+	void Detect(const cv::Mat & src);
+	void DrawLandmarks(const cv::Mat & src, cv::Mat & dst);
+
+private:
 	SettingsFaceDetection m_settings;
+
+	SharedPtr<IEffectOne> m_effectDrawLandmarks;
 };
 
 }

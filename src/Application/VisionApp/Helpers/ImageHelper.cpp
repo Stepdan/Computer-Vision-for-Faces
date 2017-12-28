@@ -4,29 +4,39 @@
 
 namespace VisionApp {
 
-void ImageHelper::SetImage(const SharedPtr<IDataImage>& dataImage)
+void ImageHelper::SetImage(const SharedPtr<IDataImage>& dataImage, bool needToUpdate)
 {
     m_image = dataImage;
+	if(needToUpdate)
+		emit imageChanged();
 }
 
-void ImageHelper::SetImage(const Core::QDataImage& qDataImage)
+void ImageHelper::SetImage(const Core::QDataImage& qDataImage, bool needToUpdate)
 {
     m_image.reset(new Core::QDataImage(qDataImage));
+	if(needToUpdate)
+		emit imageChanged();
 }
 
-void ImageHelper::SetImage(const Core::CvDataImage& cvDataImage)
+void ImageHelper::SetImage(const Core::CvDataImage& cvDataImage, bool needToUpdate)
 {
     m_image.reset(new Core::CvDataImage(cvDataImage));
+	if(needToUpdate)
+		emit imageChanged();
 }
 
-void ImageHelper::SetImage(const QImage& qImage)
+void ImageHelper::SetImage(const QImage& qImage, bool needToUpdate)
 {
     m_image.reset(new Core::QDataImage(qImage));
+	if(needToUpdate)
+		emit imageChanged();
 }
 
-void ImageHelper::SetImage(const cv::Mat& cvMat)
+void ImageHelper::SetImage(const cv::Mat& cvMat, bool needToUpdate)
 {
     m_image.reset(new Core::CvDataImage(cvMat));
+	if(needToUpdate)
+		emit imageChanged();
 }
 
 void ImageHelper::SetImage2(const cv::Mat& cvMat)

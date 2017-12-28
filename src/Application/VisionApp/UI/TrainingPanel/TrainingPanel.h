@@ -2,8 +2,6 @@
 
 #include <QWidget>
 
-#include "Types/Face.h"
-
 namespace Ui {
 class TrainingPanel;
 }
@@ -16,6 +14,9 @@ public:
 	explicit TrainingPanel(QWidget *parent = 0);
 	~TrainingPanel();
 
+signals:
+	void faceDetectClicked();
+
 private slots:
 	void OnFaceDetectClicked();
 	void OnFolderClicked();
@@ -23,6 +24,4 @@ private slots:
 
 private:
 	Ui::TrainingPanel *ui;
-
-	Types::Face m_face;
 };

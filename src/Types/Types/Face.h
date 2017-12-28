@@ -10,6 +10,7 @@ public:
 	Face() = default;
 	Face(const Contour & outline, const Contours & eyeBrows, const Contours & eyes,
 		 const Contours & Nose, const Contours & mouth, const PairPoint & frame, const PairPoint & pupils);
+	Face(const Face& rhs);
 	~Face() = default;
 
 	void SetFrame   (const PairPoint & value) { m_frame    = value; }
@@ -27,6 +28,10 @@ public:
 	const Contours  & GetEyes     () const { return m_eyes     ; }
 	const Contours  & GetNose     () const { return m_nose     ; }
 	const Contours  & GetMouth    () const { return m_mouth    ; }
+
+	Contour GetAllPoints();
+	size_t GetLandmarkIndex(const Point &);
+	void SetLandmark(size_t, const Point &);
 
 private:
 	Contour  m_outline;

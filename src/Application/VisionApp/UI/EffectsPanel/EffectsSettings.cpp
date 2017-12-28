@@ -9,6 +9,7 @@
 #include "Proc/Settings/BaseSettings.h"
 #include "Proc/Settings/SettingsColorTransfer.h"
 #include "Proc/Settings/SettingsDetailsEnhance.h"
+#include "Proc/Settings/SettingsDrawLandmarks.h"
 #include "Proc/Settings/SettingsFaceDetection.h"
 #include "Proc/Settings/SettingsFilter.h"
 
@@ -104,6 +105,15 @@ SharedPtr<Proc::BaseSettings> SettingsDetailsEnhance(QBoxLayout *layout)
 
 //----------------------------------------------------------
 
+SharedPtr<Proc::BaseSettings> SettingsDrawLandmarks(QBoxLayout *layout)
+{
+	auto settings = CreateSettings<Proc::SettingsDrawLandmarks>();
+
+	return settings;
+}
+
+//----------------------------------------------------------
+
 SharedPtr<Proc::BaseSettings> SettingsFaceDetection(QBoxLayout *layout)
 {
 	auto settings = CreateSettings<Proc::SettingsFaceDetection>();
@@ -135,6 +145,7 @@ SharedPtr<Proc::BaseSettings> SettingsFilter(QBoxLayout *layout)
 const SettingsCreatorList g_settingsCreator {
 	{ "ColorTransfer", &SettingsColorTransfer },
 	{ "DetailsEnhance", &SettingsDetailsEnhance },
+	{ "DrawLandmarks", &SettingsDrawLandmarks },
 	{ "FaceDetection", &SettingsFaceDetection },
 	{ "Filter", &SettingsFilter }
 };

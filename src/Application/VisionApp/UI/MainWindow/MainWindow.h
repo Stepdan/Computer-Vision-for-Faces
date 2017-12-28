@@ -21,6 +21,11 @@ public:
 	void UpdateStateUndoButtons(bool undoEnabled, bool redoEnabled);
 	void UpdateImageInfoText(const QString & text);
 
+private slots:
+	void OnUpdateInfoText(const QString &);
+
 private:
 	Ui::MainWindow *ui;
+
+	QString m_imageInfo;
 };

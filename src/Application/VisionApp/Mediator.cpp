@@ -32,6 +32,7 @@ Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 	, m_settings(new QSettings(COMPANY_NAME, PRODUCT_NAME))
 	, m_imageHelper(new ImageHelper())
 	, m_effectHelper(new EffectHelper(m_imageHelper))
+	, m_trainingHelper(new TrainingHelper(m_effectHelper))
 	, m_undoHelper(new UndoHelper())
 	, m_capture(new Capture::CaptureController())
 {
@@ -48,6 +49,8 @@ Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::CAPTURE_STARTED, this, SLOT(OnStartCapture()));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::CAPTURE_CANCELED, this, SLOT(OnStopCapture()));
+
+	connect(m_imageHelper.get(), &ImageHelper::imageChanged, this, &Mediator::OnImageChanged);
 
 	qRegisterMetaType<Capture::CaptureInfo>("Capture::CaptureInfo");
 	connect(m_capture.get(), &Capture::CaptureController::frameCaptured, this, &Mediator::OnFrameCaptured);
@@ -140,6 +143,13 @@ void Mediator::OnCompare()
 	m_imageHelper->SetImage(m_undoHelper->GetOriginal());
 	m_mainWindow->SetImage(m_imageHelper->GetQImage());
 	m_undoHelper->SetOriginal(image);
+}
+
+void Mediator::OnImageChanged()
+{
+	m_undoHelper->Add(m_imageHelper->GetDataImage());
+	m_mainWindow->SetImage(m_imageHelper->GetQImage());
+	m_mainWindow->UpdateStateUndoButtons(m_undoHelper->UndoSize(), m_undoHelper->RedoSize());
 }
 
 void Mediator::OnApplyEffect(const SharedPtr<Proc::BaseSettings>& settings)

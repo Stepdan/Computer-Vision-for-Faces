@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QObject>
+
 #include "Core/DataImage/CvDataImage.h"
 #include "Core/DataImage/QDataImage.h"
 
@@ -7,18 +9,20 @@ using namespace Core::Interfaces;
 
 namespace VisionApp {
 
-class ImageHelper
+class ImageHelper : public QObject
 {
+	Q_OBJECT
+
 public:
     ImageHelper() = default;
     ~ImageHelper() = default;
 
 public:
-    void SetImage(const SharedPtr<IDataImage>&);
-    void SetImage(const Core::QDataImage&);
-    void SetImage(const Core::CvDataImage&);
-    void SetImage(const QImage&);
-    void SetImage(const cv::Mat&);
+	void SetImage(const SharedPtr<IDataImage>&, bool needToUpdate = false);
+	void SetImage(const Core::QDataImage&, bool needToUpdate = false);
+	void SetImage(const Core::CvDataImage&, bool needToUpdate = false);
+	void SetImage(const QImage&, bool needToUpdate = false);
+	void SetImage(const cv::Mat&, bool needToUpdate = false);
 
     SharedPtr<IDataImage> GetDataImage();
     QImage GetQImage();
@@ -30,6 +34,9 @@ public:
 	QImage Convert2QImage(const SharedPtr<IDataImage> &);
 	QImage Convert2QImage(const cv::Mat &);
 	cv::Mat Convert2cvImage(const SharedPtr<IDataImage> &);
+
+signals:
+	void imageChanged();
 
 private:
 	SharedPtr<IDataImage> m_image; // Основное изображение

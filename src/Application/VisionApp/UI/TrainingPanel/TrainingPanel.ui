@@ -40,6 +40,13 @@
         </property>
        </spacer>
       </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="saveLandmarksButton">
+        <property name="text">
+         <string>Save landmarks</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="2">
        <widget class="QPushButton" name="folderButton">
         <property name="text">
@@ -47,10 +54,10 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="saveLandmarksButton">
+      <item row="2" column="2">
+       <widget class="QPushButton" name="cancelButton">
         <property name="text">
-         <string>Save landmarks</string>
+         <string>Cancel</string>
         </property>
        </widget>
       </item>
