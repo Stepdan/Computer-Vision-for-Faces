@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "QDataImage.h"
 #include "CvDataImage.h"
 
@@ -48,7 +50,7 @@ void QDataImage::ColorSpaceConvert(ColorSpace cs)
 
 }
 
-const FrameInfo & QDataImage::GetFrameInfo()
+FrameInfo QDataImage::GetFrameInfo()
 {
     return { m_image.width(), m_image.height() };
 }
@@ -58,5 +60,30 @@ SharedPtr<IDataImage> QDataImage::Subframe(int x0, int y0, int width, int height
 	return SharedPtr<IDataImage>(new QDataImage(m_image.copy(x0, y0, width, height)));
 }
 
+SharedPtr<IDataImage> QDataImage::Flip(FlipOrientation orientation)
+{
+	bool h = false, v = false;
+
+	switch(orientation)
+	{
+	case FlipOrientation::Diagonal:
+		h = v = true;
+		break;
+	case FlipOrientation::Horizontal:
+		h = true;
+		break;
+	case FlipOrientation::Vertical:
+		v = true;
+		break;
+	}
+
+	return SharedPtr<IDataImage>(new QDataImage(m_image.mirrored(h, v)));
+}
+
+void QDataImage::Save(const std::string & pathname, const std::string & extension)
+{
+	std::string filename = pathname + "." + extension;
+	m_image.save(QString::fromStdString(filename));
+}
 
 }

@@ -3,7 +3,7 @@
 #include <QWidget>
 
 #include "Types/Pointers.h"
-#include "TrainingTypes.h"
+#include "Helpers/TrainingTypes.h"
 
 using namespace VisionApp::Training;
 
@@ -21,6 +21,7 @@ public:
 
 signals:
 	void faceDetectClicked();
+	void landmarkFileSettingsChanged(const SharedPtr<LandmarkFileSettings> &);
 
 private slots:
 	void OnFaceDetectClicked();

@@ -2,7 +2,15 @@
 
 #include "Core/Utils/ImageUtils.h"
 
+#include "Utils/ObjectsConnector.h"
+#include "Utils/ObjectsConnectorID.h"
+
 namespace VisionApp {
+
+ImageHelper::ImageHelper()
+{
+	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::SAVE_IMAGE_CUSTOM, this, SLOT(OnSaveImage(const std::string &, const std::string &, Core::FlipOrientation)));
+}
 
 void ImageHelper::SetImage(const SharedPtr<IDataImage>& dataImage, bool needToUpdate)
 {
@@ -110,6 +118,25 @@ cv::Mat ImageHelper::Convert2cvImage(const SharedPtr<IDataImage> & image)
 	case Core::ImageImpl::OpenCV:
 		return dynamic_cast<Core::CvDataImage*>(image.get())->GetCvMat();
 	}
+}
+
+void ImageHelper::OnSaveImage(const std::string & filepath, const std::string & extension, Core::FlipOrientation orientation)
+{
+	auto image = m_image->Clone();
+	if(orientation != Core::FlipOrientation::Default)
+		image = image->Flip(orientation);
+
+	image->Save(filepath, extension);
+}
+
+void ImageHelper::SetFilename(const std::string & filename)
+{
+	m_filename = filename;
+}
+
+std::string ImageHelper::GetFilename() const
+{
+	return m_filename;
 }
 
 }

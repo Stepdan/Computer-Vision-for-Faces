@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iosfwd>
+
 #include "Types/Point.h"
 
 namespace Types {
@@ -30,6 +32,8 @@ public:
 	const Contours  & GetMouth    () const { return m_mouth    ; }
 
 	Contour GetAllPoints();
+	Contour GetInvertedPoints(int width);
+	PairPoint GetInvertedFrame(int width);
 	size_t GetLandmarkIndex(const Point &);
 	void SetLandmark(size_t, const Point &);
 
@@ -45,5 +49,7 @@ private:
 };
 
 using Faces = std::vector<Face>;
+
+std::ofstream& operator<<(std::ofstream & stream, const Face &face);
 
 }

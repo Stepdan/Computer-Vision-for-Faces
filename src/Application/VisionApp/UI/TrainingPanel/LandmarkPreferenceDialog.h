@@ -4,7 +4,7 @@
 #include <QSettings>
 
 #include "Types/Pointers.h"
-#include "TrainingTypes.h"
+#include "Helpers/TrainingTypes.h"
 
 using namespace VisionApp::Training;
 
@@ -23,7 +23,11 @@ public:
 private slots:
 	void OnFolderBrowseClicked();
 	void OnXMLBrowseClicked();
-	void OnFilenameChanged();
+	void OnImagesPathClicked();
+
+	void OnFolderPathChanged();
+	void OnXMLPathChanged();
+	void OnImagesPathChanged();
 
 private:
 	Ui::LandmarkPreferenceDialog *ui;

@@ -29,7 +29,7 @@ Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 	: m_mainWindow(mainWindow)
 	, m_imageHelper(new ImageHelper())
 	, m_effectHelper(new EffectHelper(m_imageHelper))
-	, m_trainingHelper(new TrainingHelper(m_effectHelper))
+	, m_trainingHelper(new TrainingHelper(m_imageHelper, m_effectHelper))
 	, m_undoHelper(new UndoHelper())
 	, m_capture(new Capture::CaptureController())
 {
@@ -70,6 +70,7 @@ void Mediator::OnLoadImage()
 		return;
 
 	m_imageHelper->SetImage(cv::imread(filename.toStdString()));
+	m_imageHelper->SetFilename(QFileInfo(filename).baseName().toStdString());
 	const auto image = m_imageHelper->GetQImage();
 
 	m_undoHelper->SetOriginal(m_imageHelper->GetDataImage());

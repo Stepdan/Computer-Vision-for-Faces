@@ -22,8 +22,10 @@ public: // IDataImage
     ImageImpl             GetImpl() const override;
     SharedPtr<IDataImage> ChangeImpl()    override;
     void                  ColorSpaceConvert(ColorSpace cs) override;
-    const FrameInfo&      GetFrameInfo()  override;
+	FrameInfo             GetFrameInfo()  override;
 	SharedPtr<IDataImage> Subframe(int x0 = 0, int y0 = 0, int width = -1, int height = -1) override;
+	SharedPtr<IDataImage> Flip(FlipOrientation) override;
+	void                  Save(const std::string & pathname, const std::string & extension = "png") override;
 
 public:
     cv::Mat GetCvMat() const { return m_image; }

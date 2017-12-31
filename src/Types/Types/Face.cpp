@@ -18,6 +18,17 @@ constexpr size_t MOUTH_INNER = 60;
 constexpr size_t PUPILS_POINTS = 68;
 constexpr size_t POINTS_COUNT = 70;
 
+// Инвертированные значени индексов
+std::vector<int> g_invertedIndexes = {
+	16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, // outline
+	26, 25, 24, 23, 22, 21, 20, 19, 18, 17,                   // eyeBrows
+	27, 28, 29, 30, 35, 34, 33, 32, 31,                       // nose
+	45, 44, 43, 42, 47, 46, 39, 38, 37, 36, 41, 40,           // eyes
+	54, 53, 52, 51, 50, 49, 48, 59, 58, 57, 56, 55,           // outer mouse
+	64, 63, 62, 61, 60, 67, 66, 65,                           // inner mouse
+	69, 68                                                    // pupils
+};
+
 }
 
 namespace Types {
@@ -65,6 +76,30 @@ Contour Face::GetAllPoints()
 	return contour;
 }
 
+Contour Face::GetInvertedPoints(int width)
+{
+	Contour contour;
+
+	auto buf = GetAllPoints();
+	for(auto & pnt : buf)
+		pnt.x = width - pnt.x;
+
+	contour.resize(POINTS_COUNT);
+	for(size_t i = 0; i < buf.size(); ++i)
+		contour[i] = buf[g_invertedIndexes[i]];
+
+	return contour;
+}
+
+PairPoint Face::GetInvertedFrame(int width)
+{
+	auto inverted = m_frame;
+	inverted.first.x = width - inverted.first.x;
+	inverted.second.x = width - inverted.second.x;
+	std::swap(inverted.first.x, inverted.second.x);
+	return inverted;
+}
+
 size_t Face::GetLandmarkIndex(const Point & pnt)
 {
 	const auto points = GetAllPoints();
@@ -97,6 +132,21 @@ void Face::SetLandmark(size_t index, const Point & pnt)
 		m_mouth[1][index - MOUTH_INNER] = pnt;
 	else if(index < POINTS_COUNT)
 		(index == 68) ? m_pupils.first = pnt : m_pupils.second = pnt;
+}
+
+std::ofstream& operator<<(std::ofstream & stream, const Face &face)
+{
+		stream
+		<< face.GetOutline()
+		<< face.GetEyeBrows()
+		<< face.GetNose()
+		<< face.GetEyes()
+		<< face.GetMouth()
+		<< face.GetPupils().first
+		<< face.GetPupils().second
+		;
+
+		return stream;
 }
 
 }

@@ -14,7 +14,7 @@ class ImageHelper : public QObject
 	Q_OBJECT
 
 public:
-    ImageHelper() = default;
+	ImageHelper();
     ~ImageHelper() = default;
 
 public:
@@ -23,6 +23,9 @@ public:
 	void SetImage(const Core::CvDataImage&, bool needToUpdate = false);
 	void SetImage(const QImage&, bool needToUpdate = false);
 	void SetImage(const cv::Mat&, bool needToUpdate = false);
+
+	void SetFilename(const std::string &);
+	std::string GetFilename() const;
 
     SharedPtr<IDataImage> GetDataImage();
     QImage GetQImage();
@@ -38,9 +41,14 @@ public:
 signals:
 	void imageChanged();
 
+private slots:
+	void OnSaveImage(const std::string & filepath, const std::string & extension, Core::FlipOrientation);
+
 private:
 	SharedPtr<IDataImage> m_image; // Основное изображение
 	SharedPtr<IDataImage> m_image2; // Изображение, используемое как дополнительное для эффектов
+
+	std::string m_filename;
 };
 
 }
