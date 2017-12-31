@@ -2,6 +2,11 @@
 
 #include <QWidget>
 
+#include "Types/Pointers.h"
+#include "TrainingTypes.h"
+
+using namespace VisionApp::Training;
+
 namespace Ui {
 class TrainingPanel;
 }
@@ -19,9 +24,11 @@ signals:
 
 private slots:
 	void OnFaceDetectClicked();
-	void OnFolderClicked();
+	void OnSettingsClicked();
 	void OnSaveLandmarksClicked();
 
 private:
 	Ui::TrainingPanel *ui;
+
+	SharedPtr<LandmarkFileSettings> m_landmarkFileSettings;
 };

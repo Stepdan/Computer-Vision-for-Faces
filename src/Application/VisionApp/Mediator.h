@@ -40,7 +40,6 @@ private slots:
 
 private:
 	SharedPtr<MainWindow> m_mainWindow;
-	UniquePtr<QSettings> m_settings;
 
 	SharedPtr<ImageHelper> m_imageHelper;
 

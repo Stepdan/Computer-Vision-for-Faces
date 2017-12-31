@@ -13,14 +13,12 @@
 #include "Utils/ObjectsConnector.h"
 #include "Utils/ObjectsConnectorID.h"
 
+#include "SettingsManager.h"
 #include "Application.h"
 #include "Mediator.h"
 
 namespace
 {
-const QString COMPANY_NAME = "StepCo";
-const QString PRODUCT_NAME = "VisionApp";
-
 const QString LAST_OPEN_PATH = "LAST_OPEN_PATH";
 const QString LAST_SAVE_PATH = "LAST_SAVE_PATH";
 }
@@ -29,7 +27,6 @@ namespace VisionApp {
 
 Mediator::Mediator(const SharedPtr<MainWindow> & mainWindow)
 	: m_mainWindow(mainWindow)
-	, m_settings(new QSettings(COMPANY_NAME, PRODUCT_NAME))
 	, m_imageHelper(new ImageHelper())
 	, m_effectHelper(new EffectHelper(m_imageHelper))
 	, m_trainingHelper(new TrainingHelper(m_effectHelper))
@@ -64,7 +61,7 @@ void Mediator::OnLoadImage()
 
 	OnReset();
 
-	const auto lastPath = m_settings->value(LAST_OPEN_PATH, "C:/").toString();
+	const auto lastPath = SettingsManager::Instance().value(LAST_OPEN_PATH, "C:/").toString();
 
 	const QString filter = "All Files (*.*)";
 	const auto filename = QFileDialog::getOpenFileName(m_mainWindow.get(), "Open file", lastPath, filter);
@@ -78,7 +75,7 @@ void Mediator::OnLoadImage()
 	m_undoHelper->SetOriginal(m_imageHelper->GetDataImage());
 	m_mainWindow->SetImage(image);
 
-	m_settings->setValue(LAST_OPEN_PATH, filename);
+	SettingsManager::Instance().setValue(LAST_OPEN_PATH, filename);
 
 	m_mainWindow->UpdateImageInfoText(
 				QFileInfo(filename).baseName() + "." + QFileInfo(filename).suffix()
@@ -88,7 +85,7 @@ void Mediator::OnLoadImage()
 
 void Mediator::OnLoadImage2()
 {
-	const auto lastPath = m_settings->value(LAST_OPEN_PATH, "C:/").toString();
+	const auto lastPath = SettingsManager::Instance().value(LAST_OPEN_PATH, "C:/").toString();
 
 	const QString filter = "All Files (*.*)";
 	const auto filename = QFileDialog::getOpenFileName(m_mainWindow.get(), "Open file", lastPath, filter);
@@ -101,7 +98,7 @@ void Mediator::OnLoadImage2()
 
 void Mediator::OnSaveImage()
 {
-	const auto lastPath = m_settings->value(LAST_SAVE_PATH, "C:/").toString();
+	const auto lastPath = SettingsManager::Instance().value(LAST_SAVE_PATH, "C:/").toString();
 
 	const QString filter = "Images (*.png, *.bmp, *.jpg)";
 	const auto filename = QFileDialog::getSaveFileName(m_mainWindow.get(), "Save file", lastPath, filter);
@@ -111,7 +108,7 @@ void Mediator::OnSaveImage()
 
 	cv::imwrite(filename.toStdString(), m_imageHelper->GetCvMat());
 
-	m_settings->setValue(LAST_SAVE_PATH, filename);
+	SettingsManager::Instance().setValue(LAST_SAVE_PATH, filename);
 }
 
 void Mediator::OnUndo()
