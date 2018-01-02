@@ -23,6 +23,7 @@ TopPanel::TopPanel(QWidget *parent) :
 
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::EFFECTS_CLICKED, ui->effectsButton, SIGNAL(clicked()));
 	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::CAPTURE_CLICKED, ui->captureButton, SIGNAL(clicked()));
+	Utils::ObjectsConnector::registerEmitter(IObjectsConnectorID::TRAINING_CLICKED, ui->trainingButton, SIGNAL(clicked()));
 }
 
 TopPanel::~TopPanel()

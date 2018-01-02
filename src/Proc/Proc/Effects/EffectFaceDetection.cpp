@@ -6,6 +6,7 @@
 #include <dlib/opencv/cv_image.h>
 #include <dlib/smart_pointers/shared_ptr.h>
 
+#include "EffectDrawLandmarks.h"
 #include "EffectFaceDetection.h"
 
 #include "ModelPath.h"
@@ -21,7 +22,8 @@ constexpr size_t EYE_LEFT = 36;
 constexpr size_t EYE_RIGHT = 42;
 constexpr size_t MOUTH_OUTER = 48;
 constexpr size_t MOUTH_INNER = 60;
-constexpr size_t POINTS_COUNT = 68;
+constexpr size_t PUPILS_POINTS = 68;
+constexpr size_t POINTS_COUNT = 70;
 
 }
 
@@ -29,6 +31,7 @@ namespace Proc {
 
 EffectFaceDetection::EffectFaceDetection(const SettingsFaceDetection & settings/* = SettingsFaceDetection()*/)
 	: m_settings(settings)
+	, m_effectDrawLandmarks(new EffectDrawLandmarks(SettingsDrawLandmarks()))
 {
 }
 
@@ -44,8 +47,14 @@ const BaseSettings & EffectFaceDetection::GetBaseSettings() const
 
 void EffectFaceDetection::Apply(const cv::Mat & src, cv::Mat & dst)
 {
+	Detect(src);
+	DrawLandmarks(src, dst);
+}
+
+void EffectFaceDetection::Detect(const cv::Mat & src)
+{
 	dlib::shape_predictor sp;
-	dlib::deserialize(g_modelPath[DLIB_FACE_68]) >> sp;
+	dlib::deserialize(g_modelPath[DLIB_FACE_70]) >> sp;
 
 	dlib::cv_image<dlib::rgb_pixel> image(src);
 	auto detector = dlib::get_frontal_face_detector();
@@ -79,17 +88,32 @@ void EffectFaceDetection::Apply(const cv::Mat & src, cv::Mat & dst)
 			rightEye.push_back({shape.part(i).x(), shape.part(i).y()});
 		for (size_t i = MOUTH_OUTER; i < MOUTH_INNER; ++i)
 			mouthOuter.push_back({shape.part(i).x(), shape.part(i).y()});
-		for (size_t i = MOUTH_INNER; i < POINTS_COUNT; ++i)
+		for (size_t i = MOUTH_INNER; i < PUPILS_POINTS; ++i)
 			mouthInner.push_back({shape.part(i).x(), shape.part(i).y()});
+
+		PairPoint pupils = { {shape.part(PUPILS_POINTS)  .x(), shape.part(PUPILS_POINTS)  .y()},
+							 {shape.part(PUPILS_POINTS+1).x(), shape.part(PUPILS_POINTS+1).y()} };
 
 		Face face(faceContour
 			, { leftEyebrow, rightEyebrow }
-			, { noseVertical, noseHorizontal }
 			, { leftEye, rightEye }
+			, { noseVertical, noseHorizontal }
 			, { mouthOuter, mouthInner }
 			, { { det.left(), det.top() },{ det.right(), det.bottom() } }
+			, pupils
 		);
 		m_settings.AddFace(face);
+	}
+}
+
+void EffectFaceDetection::DrawLandmarks(const cv::Mat & src, cv::Mat & dst)
+{
+	SettingsDrawLandmarks settings;
+	for(size_t i = 0; i < m_settings.GetFacesCount(); ++i)
+	{
+		settings.SetFace(m_settings.GetFace(i));
+		m_effectDrawLandmarks->SetBaseSettings(settings);
+		m_effectDrawLandmarks->Apply(src, dst);
 	}
 }
 

@@ -18,11 +18,11 @@ namespace VisionApp {
 class EffectHelper
 {
 public:
-EffectHelper(const SharedPtr<ImageHelper>&);
+	EffectHelper(const SharedPtr<ImageHelper>&);
 	~EffectHelper() = default;
 
 public:
-	void ApplyEffect(const SharedPtr<Proc::BaseSettings>&);
+	void ApplyEffect(SharedPtr<Proc::BaseSettings>);
 
 private:
 	SharedPtr<ImageHelper> m_imageHelper;

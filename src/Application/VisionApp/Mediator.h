@@ -6,6 +6,7 @@
 #include "Capture/Controller/CaptureController.h"
 #include "Helpers/EffectHelper.h"
 #include "Helpers/ImageHelper.h"
+#include "Helpers/TrainingHelper.h"
 #include "Helpers/UndoHelper.h"
 #include "UI/MainWindow/MainWindow.h"
 
@@ -28,6 +29,8 @@ private slots:
 	void OnReset();
 	void OnCompare();
 
+	void OnImageChanged();
+
 	void OnApplyEffect(const SharedPtr<Proc::BaseSettings>&);
 
 	void OnStartCapture();
@@ -37,11 +40,11 @@ private slots:
 
 private:
 	SharedPtr<MainWindow> m_mainWindow;
-	UniquePtr<QSettings> m_settings;
 
 	SharedPtr<ImageHelper> m_imageHelper;
 
-	UniquePtr<EffectHelper> m_effectHelper;
+	SharedPtr<EffectHelper> m_effectHelper;
+	UniquePtr<TrainingHelper> m_trainingHelper;
 	UniquePtr<UndoHelper> m_undoHelper;
 
 	SharedPtr<Capture::CaptureController> m_capture;

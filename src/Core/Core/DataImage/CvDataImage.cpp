@@ -1,3 +1,6 @@
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+
 #include "CvDataImage.h"
 #include "QDataImage.h"
 
@@ -48,7 +51,7 @@ void CvDataImage::ColorSpaceConvert(ColorSpace cs)
 
 }
 
-const FrameInfo & CvDataImage::GetFrameInfo()
+FrameInfo CvDataImage::GetFrameInfo()
 {
     return { m_image.cols, m_image.rows };
 }
@@ -56,6 +59,19 @@ const FrameInfo & CvDataImage::GetFrameInfo()
 SharedPtr<IDataImage> CvDataImage::Subframe(int x0, int y0, int width, int height)
 {
 	return SharedPtr<IDataImage>(new CvDataImage(cv::Mat(m_image, cv::Rect(x0, y0, width, height))));
+}
+
+SharedPtr<IDataImage> CvDataImage::Flip(FlipOrientation orientation)
+{
+	auto flipped = m_image.clone();
+	cv::flip(flipped, flipped, static_cast<int>(orientation));
+	return SharedPtr<IDataImage>(new CvDataImage(flipped));
+}
+
+void CvDataImage::Save(const std::string & pathname, const std::string & extension)
+{
+	std::string filename = pathname + "." + extension;
+	cv::imwrite(filename, m_image);
 }
 
 }

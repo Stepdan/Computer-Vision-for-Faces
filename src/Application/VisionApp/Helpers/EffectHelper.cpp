@@ -1,12 +1,8 @@
 #include "EffectHelper.h"
 
-#include "Proc/Settings/SettingsColorTransfer.h"
-#include "Proc/Settings/SettingsDetailsEnhance.h"
-#include "Proc/Settings/SettingsFaceDetection.h"
-#include "Proc/Settings/SettingsFilter.h"
-
 #include "Proc/Effects/EffectColorTransfer.h"
 #include "Proc/Effects/EffectDetailsEnhance.h"
+#include "Proc/Effects/EffectDrawLandmarks.h"
 #include "Proc/Effects/EffectFaceDetection.h"
 #include "Proc/Effects/EffectFilter.h"
 
@@ -21,13 +17,14 @@ EffectHelper::EffectHelper(const SharedPtr<ImageHelper>& helper)
 	: m_imageHelper(helper)
 {
 	EffectsFactory::Instance().AddEffectOne<EffectDetailsEnhance	>(SettingsDetailsEnhance	::SETTINGS_ID);
+	EffectsFactory::Instance().AddEffectOne<EffectDrawLandmarks		>(SettingsDrawLandmarks		::SETTINGS_ID);
 	EffectsFactory::Instance().AddEffectOne<EffectFaceDetection		>(SettingsFaceDetection		::SETTINGS_ID);
 	EffectsFactory::Instance().AddEffectOne<EffectFilter			>(SettingsFilter			::SETTINGS_ID);
 
 	EffectsFactory::Instance().AddEffectTwo<EffectColorTransfer		>(SettingsColorTransfer		::SETTINGS_ID);
 }
 
-void EffectHelper::ApplyEffect(const SharedPtr<Proc::BaseSettings>& settings)
+void EffectHelper::ApplyEffect(SharedPtr<Proc::BaseSettings> settings)
 {
 	cv::Mat dst;
 	switch(EffectsFactory::Instance().GetEffectInput(settings->GetSettingsID()))
@@ -37,6 +34,14 @@ void EffectHelper::ApplyEffect(const SharedPtr<Proc::BaseSettings>& settings)
 			auto effect = EffectsFactory::Instance().CreateEffectOne(settings->GetSettingsID());
 			effect->SetBaseSettings(*settings);
 			effect->Apply(m_imageHelper->GetCvMat(), dst);
+
+			if(settings->GetSettingsID() == "FaceDetection")
+			{
+				// @todo фуфуфу, но пока по другому нельзя передать в TrainingHelper
+				const auto s = dynamic_cast<const Proc::SettingsFaceDetection&>(effect->GetBaseSettings());
+				for(size_t i = 0; i < s.GetFacesCount(); ++i)
+					std::dynamic_pointer_cast<Proc::SettingsFaceDetection>(settings)->AddFace(s.GetFace(i));
+			}
 		}
 		break;
 	case Proc::EffectInput::Two:
@@ -48,7 +53,7 @@ void EffectHelper::ApplyEffect(const SharedPtr<Proc::BaseSettings>& settings)
 		break;
 	}
 
-	m_imageHelper->SetImage(dst);
+	m_imageHelper->SetImage(dst, true);
 }
 
 }

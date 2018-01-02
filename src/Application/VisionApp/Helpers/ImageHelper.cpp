@@ -2,31 +2,49 @@
 
 #include "Core/Utils/ImageUtils.h"
 
+#include "Utils/ObjectsConnector.h"
+#include "Utils/ObjectsConnectorID.h"
+
 namespace VisionApp {
 
-void ImageHelper::SetImage(const SharedPtr<IDataImage>& dataImage)
+ImageHelper::ImageHelper()
+{
+	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::SAVE_IMAGE_CUSTOM, this, SLOT(OnSaveImage(const std::string &, const std::string &, Core::FlipOrientation)));
+}
+
+void ImageHelper::SetImage(const SharedPtr<IDataImage>& dataImage, bool needToUpdate)
 {
     m_image = dataImage;
+	if(needToUpdate)
+		emit imageChanged();
 }
 
-void ImageHelper::SetImage(const Core::QDataImage& qDataImage)
+void ImageHelper::SetImage(const Core::QDataImage& qDataImage, bool needToUpdate)
 {
     m_image.reset(new Core::QDataImage(qDataImage));
+	if(needToUpdate)
+		emit imageChanged();
 }
 
-void ImageHelper::SetImage(const Core::CvDataImage& cvDataImage)
+void ImageHelper::SetImage(const Core::CvDataImage& cvDataImage, bool needToUpdate)
 {
     m_image.reset(new Core::CvDataImage(cvDataImage));
+	if(needToUpdate)
+		emit imageChanged();
 }
 
-void ImageHelper::SetImage(const QImage& qImage)
+void ImageHelper::SetImage(const QImage& qImage, bool needToUpdate)
 {
     m_image.reset(new Core::QDataImage(qImage));
+	if(needToUpdate)
+		emit imageChanged();
 }
 
-void ImageHelper::SetImage(const cv::Mat& cvMat)
+void ImageHelper::SetImage(const cv::Mat& cvMat, bool needToUpdate)
 {
     m_image.reset(new Core::CvDataImage(cvMat));
+	if(needToUpdate)
+		emit imageChanged();
 }
 
 void ImageHelper::SetImage2(const cv::Mat& cvMat)
@@ -100,6 +118,25 @@ cv::Mat ImageHelper::Convert2cvImage(const SharedPtr<IDataImage> & image)
 	case Core::ImageImpl::OpenCV:
 		return dynamic_cast<Core::CvDataImage*>(image.get())->GetCvMat();
 	}
+}
+
+void ImageHelper::OnSaveImage(const std::string & filepath, const std::string & extension, Core::FlipOrientation orientation)
+{
+	auto image = m_image->Clone();
+	if(orientation != Core::FlipOrientation::Default)
+		image = image->Flip(orientation);
+
+	image->Save(filepath, extension);
+}
+
+void ImageHelper::SetFilename(const std::string & filename)
+{
+	m_filename = filename;
+}
+
+std::string ImageHelper::GetFilename() const
+{
+	return m_filename;
 }
 
 }
