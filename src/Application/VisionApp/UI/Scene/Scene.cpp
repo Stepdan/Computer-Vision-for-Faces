@@ -83,6 +83,20 @@ void Scene::mouseReleaseEvent(QMouseEvent *event)
 	QGraphicsView::mouseReleaseEvent(event);
 }
 
+void Scene::mouseMoveEvent(QMouseEvent *event)
+{
+	switch(m_mode)
+	{
+	case SceneMode::Training:
+		OnTrainingMouseMove(event);
+	case SceneMode::Default:
+	default:
+		break;
+	}
+
+	QGraphicsView::mouseMoveEvent(event);
+}
+
 void Scene::SetImage(const QImage& image)
 {
 	QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
@@ -98,7 +112,7 @@ void Scene::SetImage(const QImage& image)
 
 void Scene::OnTrainingMousePress(QMouseEvent *event)
 {
-	if(event->button() == Qt::RightButton)
+	if(event->button() == Qt::LeftButton)
 	{
 		const auto pos = mapToScene(event->pos());
 
@@ -114,7 +128,20 @@ void Scene::OnTrainingMousePress(QMouseEvent *event)
 				m_landmarkIndex = distance(m_landmarks.cbegin(), it);
 			}
 		}
-		else
+
+		emit mousePressPosChanged("Training mode. Mouse press: ( " +
+								  QString::number(pos.x())+", " + QString::number(pos.y()) + " )");
+	}
+
+}
+
+void Scene::OnTrainingMouseRelease(QMouseEvent *event)
+{
+	if(event->button() == Qt::LeftButton)
+	{
+		const auto pos = mapToScene(event->pos());
+
+		if(m_editLandmark)
 		{
 			const auto landmark = Types::Point(static_cast<int>(pos.x()), static_cast<int>(pos.y()));
 			m_face->SetLandmark(m_landmarkIndex, landmark);
@@ -124,15 +151,26 @@ void Scene::OnTrainingMousePress(QMouseEvent *event)
 			emit landmarkPosChanged();
 		}
 
-		emit mousePressPosChanged("Training mode. Mouse click at ( " +
+		emit mousePressPosChanged("Training mode. Mouse release: ( " +
 								  QString::number(pos.x())+", " + QString::number(pos.y()) + " )");
 	}
-
 }
 
-void Scene::OnTrainingMouseRelease(QMouseEvent *event)
+void Scene::OnTrainingMouseMove(QMouseEvent *event)
 {
+	const auto pos = mapToScene(event->pos());
 
+	if(m_editLandmark)
+	{
+		const auto landmark = Types::Point(static_cast<int>(pos.x()), static_cast<int>(pos.y()));
+		m_face->SetLandmark(m_landmarkIndex, landmark);
+		m_landmarks[m_landmarkIndex] = landmark;
+
+		emit landmarkPosChanged();
+	}
+
+	emit mousePressPosChanged("Training mode. Mouse move: ( " +
+							  QString::number(pos.x())+", " + QString::number(pos.y()) + " )");
 }
 
 //--------------------------------------------

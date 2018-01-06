@@ -80,7 +80,6 @@ void TrainingHelper::OnSaveLandmarksClicked()
 	imagesPathStream.open(m_landmarkFileSettings->m_imagesPath.toStdString(), std::ios::app);
 	imagesPathStream << filename + ".jpg" << std::endl;
 	imagesPathStream << filenameMirror + ".jpg" << std::endl;
-	imagesPathStream << frameInfo.width << " " << frameInfo.height;
 	imagesPathStream.close();
 
 // 3. Записываем координаты в отдельный файл + координаты прямоугольника, в который вписано лицо.

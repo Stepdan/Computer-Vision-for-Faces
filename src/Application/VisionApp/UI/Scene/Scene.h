@@ -30,6 +30,7 @@ public:
 	void wheelEvent(QWheelEvent* event) override;
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseReleaseEvent(QMouseEvent *event) override;
+	void mouseMoveEvent(QMouseEvent *event) override;
 
 public:
 	void SetSceneMode(SceneMode mode) { m_mode = mode; }
@@ -46,6 +47,7 @@ signals:
 private:
 	void OnTrainingMousePress(QMouseEvent *event);
 	void OnTrainingMouseRelease(QMouseEvent *event);
+	void OnTrainingMouseMove(QMouseEvent *event);
 
 private slots:
 	void OnEnableTrainingMode(bool);
