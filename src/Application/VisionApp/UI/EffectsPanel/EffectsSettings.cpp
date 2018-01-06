@@ -11,6 +11,7 @@
 #include "Proc/Settings/SettingsDetailsEnhance.h"
 #include "Proc/Settings/SettingsDrawLandmarks.h"
 #include "Proc/Settings/SettingsFaceDetection.h"
+#include "Proc/Settings/SettingsFaceSwap.h"
 #include "Proc/Settings/SettingsFilter.h"
 
 namespace VisionApp { namespace EffectsSettings {
@@ -123,6 +124,15 @@ SharedPtr<Proc::BaseSettings> SettingsFaceDetection(QBoxLayout *layout)
 
 //----------------------------------------------------------
 
+SharedPtr<Proc::BaseSettings> SettingsFaceSwap(QBoxLayout *layout)
+{
+	auto settings = CreateSettings<Proc::SettingsFaceSwap>();
+
+	return settings;
+}
+
+//----------------------------------------------------------
+
 SharedPtr<Proc::BaseSettings> SettingsFilter(QBoxLayout *layout)
 {
 	auto settings = CreateSettings<Proc::SettingsFilter>();
@@ -147,6 +157,7 @@ const SettingsCreatorList g_settingsCreator {
 	{ "DetailsEnhance", &SettingsDetailsEnhance },
 	{ "DrawLandmarks", &SettingsDrawLandmarks },
 	{ "FaceDetection", &SettingsFaceDetection },
+	{ "FaceSwap", &SettingsFaceSwap },
 	{ "Filter", &SettingsFilter }
 };
 
