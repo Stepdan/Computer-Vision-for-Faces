@@ -48,7 +48,7 @@ const BaseSettings & EffectFaceDetection::GetBaseSettings() const
 void EffectFaceDetection::Apply(const cv::Mat & src, cv::Mat & dst)
 {
 	Detect(src);
-	DrawLandmarks(src, dst);
+	m_settings.DrawWithLandmarks() ? DrawLandmarks(src, dst) : dst = src;
 }
 
 void EffectFaceDetection::Detect(const cv::Mat & src)

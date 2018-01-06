@@ -25,8 +25,14 @@ void EffectDrawLandmarks::Apply(const cv::Mat & src, cv::Mat & dst)
 {
 	dst = src.clone();
 
-	const auto contour = m_settings.GetFace().GetAllPoints();
+	// Рисуем frame
+	const auto frame = m_settings.GetFace().GetFrame();
+	cv::line(dst, cv::Point(frame.first.x, frame.first.y), cv::Point(frame.second.x, frame.first.y), cv::Scalar(255, 0, 0));
+	cv::line(dst, cv::Point(frame.first.x, frame.second.y), cv::Point(frame.second.x, frame.second.y), cv::Scalar(255, 0, 0));
+	cv::line(dst, cv::Point(frame.first.x, frame.first.y), cv::Point(frame.first.x, frame.second.y), cv::Scalar(255, 0, 0));
+	cv::line(dst, cv::Point(frame.second.x, frame.first.y), cv::Point(frame.second.x, frame.second.y), cv::Scalar(255, 0, 0));
 
+	const auto contour = m_settings.GetFace().GetAllPoints();
 	for(const auto & point : contour)
 	{
 		// Считаем, что работаем в BGR24
