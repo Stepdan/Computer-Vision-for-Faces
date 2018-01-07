@@ -6,19 +6,7 @@
 
 namespace {
 
-constexpr size_t FACE = 0;
-constexpr size_t EYEBROW_LEFT = 17;
-constexpr size_t EYEBROW_RIGHT = 22;
-constexpr size_t NOSE_VERTICAL = 27;
-constexpr size_t NOSE_HORIZONTAL = 31;
-constexpr size_t EYE_LEFT = 36;
-constexpr size_t EYE_RIGHT = 42;
-constexpr size_t MOUTH_OUTER = 48;
-constexpr size_t MOUTH_INNER = 60;
-constexpr size_t PUPILS_POINTS = 68;
-constexpr size_t POINTS_COUNT = 70;
-
-// Инвертированные значени индексов
+// Инвертированные значения индексов
 std::vector<int> g_invertedIndexes = {
 	16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, // outline
 	26, 25, 24, 23, 22, 21, 20, 19, 18, 17,                   // eyeBrows
@@ -43,6 +31,25 @@ Face::Face(const Contour & outline, const Contours & eyeBrows, const Contours & 
 	, m_frame(frame)
 	, m_pupils(pupils)
 {
+}
+
+Face::Face(const Contour & contour)
+{
+	SetPoints(contour);
+
+	const auto predicatX = [](const Point & p0, const Point & p1) { return p0.x < p1.x; };
+	const auto predicatY = [](const Point & p0, const Point & p1) { return p0.y < p1.y; };
+
+	m_frame.first.x  = std::min_element(contour.cbegin(), contour.cend(), predicatX)->x;
+	m_frame.first.y  = std::min_element(contour.cbegin(), contour.cend(), predicatY)->y;
+	m_frame.second.x = std::max_element(contour.cbegin(), contour.cend(), predicatX)->x;
+	m_frame.second.y = std::max_element(contour.cbegin(), contour.cend(), predicatY)->y;
+}
+
+Face::Face(const Contour & contour, const PairPoint & frame)
+{
+	SetPoints(contour);
+	SetFrame(frame);
 }
 
 Face::Face(const Face& rhs)
@@ -108,6 +115,55 @@ size_t Face::GetLandmarkIndex(const Point & pnt)
 		dist[i] = sqrt((points[i].x - pnt.x)*(points[i].x - pnt.x) + (points[i].y - pnt.y)*(points[i].y - pnt.y));
 
 	return distance(dist.begin(), std::min_element(dist.begin(), dist.end()));
+}
+
+void Face::SetPoints(const Contour & contour)
+{
+	Contour faceContour
+		, leftEyebrow, rightEyebrow
+		, noseVertical, noseHorizontal
+		, leftEye, rightEye
+		, mouthOuter, mouthInner
+		;
+
+	// раскладываем точки лиц по компонентам
+	for (size_t i = FACE; i < EYEBROW_LEFT; ++i)
+		faceContour.push_back({ contour[i].x, contour[i].y });
+	for (size_t i = EYEBROW_LEFT; i < EYEBROW_RIGHT; ++i)
+		leftEyebrow.push_back({ contour[i].x, contour[i].y });
+	for (size_t i = EYEBROW_RIGHT; i < NOSE_VERTICAL; ++i)
+		rightEyebrow.push_back({ contour[i].x, contour[i].y });
+	for (size_t i = NOSE_VERTICAL; i < NOSE_HORIZONTAL; ++i)
+		noseVertical.push_back({ contour[i].x, contour[i].y });
+	for (size_t i = NOSE_HORIZONTAL; i < EYE_LEFT; ++i)
+		noseHorizontal.push_back({ contour[i].x, contour[i].y });
+	for (size_t i = EYE_LEFT; i < EYE_RIGHT; ++i)
+		leftEye.push_back({ contour[i].x, contour[i].y });
+	for (size_t i = EYE_RIGHT; i < MOUTH_OUTER; ++i)
+		rightEye.push_back({ contour[i].x, contour[i].y });
+	for (size_t i = MOUTH_OUTER; i < MOUTH_INNER; ++i)
+		mouthOuter.push_back({ contour[i].x, contour[i].y });
+	for (size_t i = MOUTH_INNER; i < PUPILS_POINTS; ++i)
+		mouthInner.push_back({ contour[i].x, contour[i].y });
+
+	m_outline.clear();
+	m_eyeBrows.clear(); m_eyeBrows.resize(2);
+	m_nose.clear(); m_nose.resize(2);
+	m_eyes.clear(); m_eyes.resize(2);
+	m_mouth.clear(); m_mouth.resize(2);
+
+	m_outline.swap(faceContour);
+	m_eyeBrows[0].swap(leftEyebrow);
+	m_eyeBrows[1].swap(rightEyebrow);
+	m_nose[0].swap(noseVertical);
+	m_nose[1].swap(noseHorizontal);
+	m_eyes[0].swap(leftEye);
+	m_eyes[1].swap(rightEye);
+	m_mouth[0].swap(mouthOuter);
+	m_mouth[1].swap(mouthInner);
+
+	m_pupils.first = contour[PUPILS_POINTS];
+	m_pupils.second = contour[PUPILS_POINTS+1];
 }
 
 void Face::SetLandmark(size_t index, const Point & pnt)

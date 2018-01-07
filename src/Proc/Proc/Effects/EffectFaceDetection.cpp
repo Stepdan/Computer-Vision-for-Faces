@@ -11,22 +11,6 @@
 
 #include "ModelPath.h"
 
-namespace {
-
-constexpr size_t FACE = 0;
-constexpr size_t EYEBROW_LEFT = 17;
-constexpr size_t EYEBROW_RIGHT = 22;
-constexpr size_t NOSE_VERTICAL = 27;
-constexpr size_t NOSE_HORIZONTAL = 31;
-constexpr size_t EYE_LEFT = 36;
-constexpr size_t EYE_RIGHT = 42;
-constexpr size_t MOUTH_OUTER = 48;
-constexpr size_t MOUTH_INNER = 60;
-constexpr size_t PUPILS_POINTS = 68;
-constexpr size_t POINTS_COUNT = 70;
-
-}
-
 namespace Proc {
 
 EffectFaceDetection::EffectFaceDetection(const SettingsFaceDetection & settings/* = SettingsFaceDetection()*/)

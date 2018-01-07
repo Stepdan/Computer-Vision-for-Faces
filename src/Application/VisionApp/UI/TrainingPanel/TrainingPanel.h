@@ -21,12 +21,14 @@ public:
 
 signals:
 	void faceDetectClicked();
+	void loadLandmarks(const std::string &);
 	void landmarkFileSettingsChanged(const SharedPtr<LandmarkFileSettings> &);
 
 private slots:
 	void OnFaceDetectClicked();
 	void OnSettingsClicked();
 	void OnSaveLandmarksClicked();
+	void OnLoadLandmarksClicked();
 
 private:
 	Ui::TrainingPanel *ui;

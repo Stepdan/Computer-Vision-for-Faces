@@ -38,6 +38,7 @@ signals:
 private slots:
 	void OnFaceDetectionClicked();
 	void OnSaveLandmarksClicked();
+	void OnLoadLandmarksClicked(const std::string &);
 	void OnCancelClicked();
 
 	void OnLandmarkPosChanged();

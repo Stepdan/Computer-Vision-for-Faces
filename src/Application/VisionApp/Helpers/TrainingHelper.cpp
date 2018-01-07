@@ -34,6 +34,7 @@ TrainingHelper::TrainingHelper(const SharedPtr<ImageHelper>& imageHelper, const 
 
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::TRAINING_FACE_DETECT_CLICKED   , this, SLOT(OnFaceDetectionClicked()));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::TRAINING_SAVE_LANDMARKS_CLICKED, this, SLOT(OnSaveLandmarksClicked()));
+	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::TRAINING_LOAD_LANDMARKS_CLICKED, this, SLOT(OnLoadLandmarksClicked(const std::string &)));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::TRAINING_CANCEL_CLICKED        , this, SLOT(OnCancelClicked()));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::TRAINING_LANDMARK_CHANGED      , this, SLOT(OnLandmarkPosChanged()));
 	Utils::ObjectsConnector::registerReceiver(IObjectsConnectorID::TRAINING_LANDMARK_FILE_SETTINGS_CHANGED , this, SLOT(OnLandmarkFileSettingsChanged(const SharedPtr<LandmarkFileSettings> &)));
@@ -161,6 +162,29 @@ void TrainingHelper::OnLandmarkPosChanged()
 void TrainingHelper::OnLandmarkFileSettingsChanged(const SharedPtr<LandmarkFileSettings> & landmarkFileSettings)
 {
 	m_landmarkFileSettings = landmarkFileSettings;
+}
+
+void TrainingHelper::OnLoadLandmarksClicked(const std::string & filename)
+{
+	emit needResetImage();
+
+	Contour contour;
+	std::ifstream stream;
+	stream.open(filename);
+
+	for(size_t i = 0; i < POINTS_COUNT; ++i)
+	{
+		Types::Point pnt;
+		stream >> pnt.x >> pnt.y;
+		contour.push_back(pnt);
+	}
+	stream.close();
+
+	m_face ? m_face->SetPoints(contour) : m_face.reset(new Types::Face(contour));
+	m_face->SetPoints(contour);
+	SharedPtr<Proc::SettingsDrawLandmarks> settings(new Proc::SettingsDrawLandmarks());
+	settings->SetFace(*m_face);
+	m_effectHelper->ApplyEffect(settings);
 }
 
 }
