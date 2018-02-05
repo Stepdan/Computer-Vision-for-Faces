@@ -64,6 +64,7 @@ private:
 };
 
 using Faces = std::vector<Face>;
+using FacePair = std::pair<Face, Face>;
 
 std::ofstream& operator<<(std::ofstream & stream, const Face &face);
 
