@@ -12,6 +12,10 @@
 
 namespace Proc { namespace Utils {
 
+
+
+// Mallick Utils
+
 void Interpolation(unsigned char* lut, float* fullRange, float* Curve, float* originalValue);
 
 void ApplyVignette(cv::Mat& image, float vignetteScale);

@@ -10,6 +10,7 @@
 #include "Proc/Settings/SettingsColorTransfer.h"
 #include "Proc/Settings/SettingsDetailsEnhance.h"
 #include "Proc/Settings/SettingsDrawLandmarks.h"
+#include "Proc/Settings/SettingsEyeShadow.h"
 #include "Proc/Settings/SettingsFaceDetection.h"
 #include "Proc/Settings/SettingsFaceSwap.h"
 #include "Proc/Settings/SettingsFilter.h"
@@ -115,6 +116,15 @@ SharedPtr<Proc::BaseSettings> SettingsDrawLandmarks(QBoxLayout *layout)
 
 //----------------------------------------------------------
 
+SharedPtr<Proc::BaseSettings> SettingsEyeShadow(QBoxLayout *layout)
+{
+	auto settings = CreateSettings<Proc::SettingsEyeShadow>();
+
+	return settings;
+}
+
+//----------------------------------------------------------
+
 SharedPtr<Proc::BaseSettings> SettingsFaceDetection(QBoxLayout *layout)
 {
 	auto settings = CreateSettings<Proc::SettingsFaceDetection>();
@@ -156,6 +166,7 @@ const SettingsCreatorList g_settingsCreator {
 	{ "ColorTransfer", &SettingsColorTransfer },
 	{ "DetailsEnhance", &SettingsDetailsEnhance },
 	{ "DrawLandmarks", &SettingsDrawLandmarks },
+	{ "EyeShadow", &SettingsEyeShadow },
 	{ "FaceDetection", &SettingsFaceDetection },
 	{ "FaceSwap", &SettingsFaceSwap },
 	{ "Filter", &SettingsFilter }

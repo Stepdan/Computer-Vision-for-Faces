@@ -3,6 +3,7 @@
 #include "Proc/Effects/EffectColorTransfer.h"
 #include "Proc/Effects/EffectDetailsEnhance.h"
 #include "Proc/Effects/EffectDrawLandmarks.h"
+#include "Proc/Effects/EffectEyeShadow.h"
 #include "Proc/Effects/EffectFaceDetection.h"
 #include "Proc/Effects/EffectFaceSwap.h"
 #include "Proc/Effects/EffectFilter.h"
@@ -19,6 +20,7 @@ EffectHelper::EffectHelper(const SharedPtr<ImageHelper>& helper)
 {
 	EffectsFactory::Instance().AddEffectOne<EffectDetailsEnhance	>(SettingsDetailsEnhance	::SETTINGS_ID);
 	EffectsFactory::Instance().AddEffectOne<EffectDrawLandmarks		>(SettingsDrawLandmarks		::SETTINGS_ID);
+	EffectsFactory::Instance().AddEffectOne<EffectEyeShadow			>(SettingsEyeShadow			::SETTINGS_ID);
 	EffectsFactory::Instance().AddEffectOne<EffectFaceDetection		>(SettingsFaceDetection		::SETTINGS_ID);
 	EffectsFactory::Instance().AddEffectOne<EffectFaceSwap			>(SettingsFaceSwap			::SETTINGS_ID);
 	EffectsFactory::Instance().AddEffectOne<EffectFilter			>(SettingsFilter			::SETTINGS_ID);
